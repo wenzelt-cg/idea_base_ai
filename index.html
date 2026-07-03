@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Resource Atlas | GitHub Repositories</title>
+    <meta
+      name="description"
+      content="A scrollable, searchable map of practical AI repositories for builders."
+    />
+    <meta name="theme-color" content="#102a43" />
+    <meta property="og:title" content="AI Resource Atlas | GitHub Repositories" />
+    <meta
+      property="og:description"
+      content="A scrollable, searchable map of practical AI repositories for builders."
+    />
+    <meta property="og:type" content="website" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to resource list</a>
+    <div class="bg-layer" aria-hidden="true"></div>
+
+    <main id="content" class="app-shell" data-suggestion-email="SET_YOUR_EMAIL@example.com">
+      <section class="hero" aria-label="Overview">
+        <h1>AI Resource Atlas</h1>
+        <p>
+          Your practical AI knowledge base: curated GitHub repositories, relevant papers, and compact use-case hints.
+          Every card links directly to source material for quick deep dives.
+        </p>
+        <div class="hero__meta" id="hero-meta">
+          <span id="repo-total">0 repositories</span>
+          <span id="category-total">0 categories</span>
+          <span id="paper-total">0 paper links</span>
+          <span>Updated from seed list</span>
+          <span>Source: curated manual list</span>
+        </div>
+      </section>
+
+      <section class="toolbar" aria-label="Search and filter repositories">
+        <h2 class="toolbar__title">Find Your Next AI Build Block</h2>
+
+        <form id="repo-filters" class="toolbar__grid">
+          <label class="toolbar__field" for="search-input">
+            <span>Search</span>
+            <input
+              id="search-input"
+              name="search"
+              type="search"
+              placeholder="Search by name, description, tag..."
+            />
+          </label>
+
+          <label class="toolbar__field" for="category-select">
+            <span>Category</span>
+            <select id="category-select" name="category">
+              <option value="all">All categories</option>
+            </select>
+          </label>
+
+          <label class="toolbar__field" for="tag-select">
+            <span>Tag</span>
+            <select id="tag-select" name="tag">
+              <option value="all">All tags</option>
+            </select>
+          </label>
+
+          <label class="toolbar__check" for="featured-only">
+            <input id="featured-only" name="featured" type="checkbox" />
+            <span>Featured only</span>
+          </label>
+
+          <label class="toolbar__check" for="papers-only">
+            <input id="papers-only" name="papers" type="checkbox" />
+            <span>With paper links only</span>
+          </label>
+        </form>
+      </section>
+
+      <section class="paper-library" aria-label="Paper library">
+        <div class="section-head">
+          <h2>Paper Library</h2>
+          <p id="paper-library-count">0 curated paper links in the current view.</p>
+        </div>
+        <ul id="paper-list" class="paper-library__list"></ul>
+      </section>
+
+      <p id="result-count" class="results-line">Loading repositories...</p>
+
+      <section id="repo-list" class="repo-grid" aria-label="Repository list"></section>
+
+      <p id="empty-state" class="empty-state" hidden>No repositories match your current filters.</p>
+
+      <section class="suggestion-panel" aria-label="Suggest new resources">
+        <div class="section-head">
+          <h2>Suggest New Resources</h2>
+          <p>
+            Share a useful AI repository, paper, or use case. The form opens your email app and pre-fills a suggestion
+            email to the site owner.
+          </p>
+        </div>
+
+        <form id="suggestion-form" class="suggestion-grid">
+          <label class="suggestion-field" for="suggestion-type">
+            <span>Type</span>
+            <select id="suggestion-type" name="type" required>
+              <option value="GitHub Repo">GitHub Repo</option>
+              <option value="AI Paper">AI Paper</option>
+              <option value="Use Case">Use Case</option>
+              <option value="Other">Other</option>
+            </select>
+          </label>
+
+          <label class="suggestion-field" for="suggestion-title">
+            <span>Title</span>
+            <input id="suggestion-title" name="title" type="text" placeholder="Name of repo, paper, or use case" required />
+          </label>
+
+          <label class="suggestion-field" for="suggestion-link">
+            <span>Link</span>
+            <input id="suggestion-link" name="link" type="url" placeholder="https://..." />
+          </label>
+
+          <label class="suggestion-field" for="suggestion-contact">
+            <span>Your contact (optional)</span>
+            <input id="suggestion-contact" name="contact" type="email" placeholder="name@example.com" />
+          </label>
+
+          <label class="suggestion-field suggestion-field--full" for="suggestion-notes">
+            <span>Why is it useful?</span>
+            <textarea
+              id="suggestion-notes"
+              name="notes"
+              rows="4"
+              placeholder="Short context, quality signal, and practical value"
+            ></textarea>
+          </label>
+
+          <button type="submit" class="suggestion-submit">Send Suggestion via Email</button>
+          <p id="suggestion-status" class="suggestion-status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <p class="footer-note">
+        Maintained from a curated repository seed list. Links open in a new tab.
+      </p>
+    </main>
+
+    <script src="./script.js" defer></script>
+  </body>
+</html>

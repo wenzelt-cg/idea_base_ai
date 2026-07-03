@@ -1,4 +1,4 @@
-name: Deploy Astro Site to GitHub Pages
+name: Deploy Static Site to GitHub Pages
 
 on:
   push:
@@ -16,41 +16,34 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  package:
     runs-on: ubuntu-latest
-    env:
-      SITE_URL: https://wenzelt-cg.github.io
-      BASE_PATH: /idea_base_ai
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build site
-        run: npm run build
+      - name: Package static files
+        run: |
+          mkdir -p site/src/data
+          cp index.html site/index.html
+          cp styles.css site/styles.css
+          cp script.js site/script.js
+          cp src/data/repos.seed.json site/src/data/repos.seed.json
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: ./site
 
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs: package
     steps:
       - name: Deploy to GitHub Pages
         id: deployment

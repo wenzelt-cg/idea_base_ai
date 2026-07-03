@@ -22,6 +22,8 @@ Each entry must follow this shape:
 - `category` (required): one category from the allowed list below.
 - `tags` (required): array of 2-5 short tags.
 - `description` (optional but recommended): short, clear sentence.
+- `useCase` (optional): one practical, concise use-case sentence.
+- `papers` (optional): array of paper objects with `title` and `url`.
 - `featured` (optional): boolean, default false.
 
 Example:
@@ -32,6 +34,13 @@ Example:
   "category": "Agents",
   "tags": ["agents", "automation", "workflows"],
   "description": "Short practical summary of what the repo is good for.",
+  "useCase": "Automate multi-step research and reporting workflows.",
+  "papers": [
+    {
+      "title": "Example Paper Title",
+      "url": "https://arxiv.org/abs/1234.56789"
+    }
+  ],
   "featured": false
 }
 
@@ -89,11 +98,12 @@ Prefer repositories with at least one of:
 3. Add the new object in the relevant category block.
 4. Ensure tags and category follow this guide.
 5. Ensure JSON remains valid.
-6. Optionally run `npm run dev` or `npm run build` for a quick sanity check.
+6. Optionally run `python3 -m http.server 4173` and open the site for a quick sanity check.
 
 ## What Not To Do
 
 - Do not add non-GitHub links to the seed list.
+- Exception: `papers[].url` may link to trusted paper hosts (for example arXiv, ACL Anthology, OpenReview).
 - Do not add private/internal repositories.
 - Do not add marketing copy in descriptions.
 - Do not refactor unrelated files while making content-only updates.

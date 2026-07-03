@@ -5,6 +5,17 @@
     "category": "Foundation Models",
     "tags": ["llm", "api", "examples"],
     "description": "Practical examples for building with modern OpenAI APIs.",
+    "useCase": "Rapidly prototype assistants, extraction flows, and eval-ready API integrations.",
+    "papers": [
+      {
+        "title": "GPT-4 Technical Report",
+        "url": "https://arxiv.org/abs/2303.08774"
+      },
+      {
+        "title": "Training language models to follow instructions with human feedback",
+        "url": "https://arxiv.org/abs/2203.02155"
+      }
+    ],
     "featured": true
   },
   {
@@ -13,13 +24,31 @@
     "category": "Foundation Models",
     "tags": ["nlp", "vision", "models"],
     "description": "Core library for transformer models across tasks.",
+    "useCase": "Train and fine-tune state-of-the-art language and vision models with one standard API.",
+    "papers": [
+      {
+        "title": "Attention Is All You Need",
+        "url": "https://arxiv.org/abs/1706.03762"
+      },
+      {
+        "title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+        "url": "https://arxiv.org/abs/1810.04805"
+      }
+    ],
     "featured": true
   },
   {
     "owner": "vllm-project",
     "repo": "vllm",
     "category": "Inference",
-    "tags": ["serving", "inference", "throughput"]
+    "tags": ["serving", "inference", "throughput"],
+    "useCase": "Serve high-traffic chat and completion workloads with better token throughput.",
+    "papers": [
+      {
+        "title": "Efficient Memory Management for Large Language Model Serving with PagedAttention",
+        "url": "https://arxiv.org/abs/2309.06180"
+      }
+    ]
   },
   {
     "owner": "huggingface",
@@ -38,7 +67,13 @@
     "owner": "ggerganov",
     "repo": "llama.cpp",
     "category": "Local AI",
-    "tags": ["llm", "inference", "cpu"]
+    "tags": ["llm", "inference", "cpu"],
+    "papers": [
+      {
+        "title": "LLaMA: Open and Efficient Foundation Language Models",
+        "url": "https://arxiv.org/abs/2302.13971"
+      }
+    ]
   },
   {
     "owner": "BerriAI",
@@ -51,38 +86,72 @@
     "owner": "langchain-ai",
     "repo": "langchain",
     "category": "Frameworks",
-    "tags": ["agents", "rag", "chains"]
+    "tags": ["agents", "rag", "chains"],
+    "papers": [
+      {
+        "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+        "url": "https://arxiv.org/abs/2210.03629"
+      }
+    ]
   },
   {
     "owner": "langchain-ai",
     "repo": "langgraph",
     "category": "Frameworks",
-    "tags": ["agents", "state", "graphs"]
+    "tags": ["agents", "state", "graphs"],
+    "useCase": "Build reliable stateful multi-step agent workflows with checkpoints and human-in-the-loop steps."
   },
   {
     "owner": "run-llama",
     "repo": "llama_index",
     "category": "RAG",
     "tags": ["rag", "retrieval", "indexing"],
+    "useCase": "Create question-answering systems over internal docs, wikis, and knowledge bases.",
+    "papers": [
+      {
+        "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+        "url": "https://arxiv.org/abs/2005.11401"
+      }
+    ],
     "featured": true
   },
   {
     "owner": "deepset-ai",
     "repo": "haystack",
     "category": "RAG",
-    "tags": ["search", "pipelines", "qa"]
+    "tags": ["search", "pipelines", "qa"],
+    "useCase": "Compose production-grade retrieval pipelines with eval loops and observability hooks.",
+    "papers": [
+      {
+        "title": "Dense Passage Retrieval for Open-Domain Question Answering",
+        "url": "https://arxiv.org/abs/2004.04906"
+      }
+    ]
   },
   {
     "owner": "stanfordnlp",
     "repo": "dspy",
     "category": "Prompt Engineering",
-    "tags": ["programming", "optimization", "llm"]
+    "tags": ["programming", "optimization", "llm"],
+    "papers": [
+      {
+        "title": "DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines",
+        "url": "https://arxiv.org/abs/2310.03714"
+      }
+    ]
   },
   {
     "owner": "microsoft",
     "repo": "autogen",
     "category": "Agents",
     "tags": ["agents", "multi-agent", "orchestration"],
+    "useCase": "Coordinate specialized agents for planning, coding, review, and tool execution.",
+    "papers": [
+      {
+        "title": "AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation",
+        "url": "https://arxiv.org/abs/2308.08155"
+      }
+    ],
     "featured": true
   },
   {
@@ -108,7 +177,8 @@
     "owner": "gradio-app",
     "repo": "gradio",
     "category": "AI UI",
-    "tags": ["ui", "demo", "python"]
+    "tags": ["ui", "demo", "python"],
+    "useCase": "Ship interactive model demos quickly for internal stakeholders and external users."
   },
   {
     "owner": "streamlit",
@@ -132,13 +202,26 @@
     "owner": "explodinggradients",
     "repo": "ragas",
     "category": "Evaluation",
-    "tags": ["rag", "metrics", "quality"]
+    "tags": ["rag", "metrics", "quality"],
+    "useCase": "Track retrieval and answer quality over time for RAG systems in production.",
+    "papers": [
+      {
+        "title": "RAGAS: Automated Evaluation of Retrieval Augmented Generation",
+        "url": "https://arxiv.org/abs/2309.15217"
+      }
+    ]
   },
   {
     "owner": "UKPLab",
     "repo": "sentence-transformers",
     "category": "Embeddings",
-    "tags": ["embeddings", "retrieval", "semantic-search"]
+    "tags": ["embeddings", "retrieval", "semantic-search"],
+    "papers": [
+      {
+        "title": "Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks",
+        "url": "https://arxiv.org/abs/1908.10084"
+      }
+    ]
   },
   {
     "owner": "chroma-core",
@@ -150,7 +233,8 @@
     "owner": "qdrant",
     "repo": "qdrant",
     "category": "Vector Databases",
-    "tags": ["vector-db", "search", "production"]
+    "tags": ["vector-db", "search", "production"],
+    "useCase": "Run semantic search and recommendation systems with low-latency vector retrieval."
   },
   {
     "owner": "milvus-io",
@@ -168,7 +252,13 @@
     "owner": "anthropics",
     "repo": "anthropic-cookbook",
     "category": "Foundation Models",
-    "tags": ["api", "examples", "agents"]
+    "tags": ["api", "examples", "agents"],
+    "papers": [
+      {
+        "title": "Constitutional AI: Harmlessness from AI Feedback",
+        "url": "https://arxiv.org/abs/2212.08073"
+      }
+    ]
   },
   {
     "owner": "Significant-Gravitas",

@@ -169,6 +169,61 @@ body {
   grid-column: span 12;
 }
 
+.section-head h2 {
+  margin: 0;
+  font-size: 1.18rem;
+  font-family: "Space Grotesk", ui-sans-serif, sans-serif;
+}
+
+.section-head p {
+  margin: 0.5rem 0 0;
+  color: var(--muted);
+}
+
+.paper-library,
+.suggestion-panel {
+  margin-top: 1rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1rem;
+}
+
+.paper-library__list {
+  margin: 0.8rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.55rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.paper-library__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  border: 1px solid color-mix(in srgb, var(--line) 78%, white 22%);
+  border-radius: 12px;
+  padding: 0.65rem 0.7rem;
+  background: #ffffff;
+}
+
+.paper-library__link {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.paper-library__link:hover {
+  color: var(--brand);
+  text-decoration: underline;
+}
+
+.paper-library__source {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
 .results-line {
   margin: 1rem 0 0.8rem;
   color: var(--muted);
@@ -192,10 +247,6 @@ body {
   padding: 1rem;
   transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
   animation: rise 420ms ease both;
-}
-
-.repo-card[hidden] {
-  display: none;
 }
 
 .repo-card:hover {
@@ -244,6 +295,16 @@ body {
   min-height: 2.7em;
 }
 
+.repo-use-case {
+  margin: 0;
+  border-left: 3px solid color-mix(in srgb, var(--brand) 38%, white 62%);
+  padding: 0.32rem 0 0.32rem 0.55rem;
+  background: color-mix(in srgb, var(--brand-soft) 28%, white 72%);
+  border-radius: 6px;
+  color: #0f2d41;
+  font-size: 0.87rem;
+}
+
 .repo-card__meta {
   margin: 0;
   padding: 0;
@@ -283,6 +344,46 @@ body {
   color: #475569;
 }
 
+.repo-card__papers {
+  border-top: 1px dashed color-mix(in srgb, var(--line) 85%, white 15%);
+  padding-top: 0.55rem;
+}
+
+.repo-card__papers h3 {
+  margin: 0;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.repo-card__papers ul {
+  margin: 0.35rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.repo-paper-link {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--brand) 18%, white 82%);
+  background: color-mix(in srgb, var(--brand-soft) 38%, white 62%);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.78rem;
+  padding: 0.24rem 0.58rem;
+}
+
+.repo-paper-link:hover {
+  color: var(--brand);
+  border-color: color-mix(in srgb, var(--brand) 40%, white 60%);
+  background: color-mix(in srgb, var(--brand-soft) 62%, white 38%);
+}
+
 .empty-state {
   margin-top: 1.2rem;
   border: 1px dashed var(--line);
@@ -290,6 +391,72 @@ body {
   padding: 1rem;
   background: #fffefb;
   color: var(--muted);
+}
+
+.suggestion-grid {
+  margin-top: 0.9rem;
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.suggestion-field {
+  grid-column: span 6;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.suggestion-field--full,
+.suggestion-status,
+.suggestion-submit {
+  grid-column: span 12;
+}
+
+.suggestion-field span {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.suggestion-field input,
+.suggestion-field select,
+.suggestion-field textarea {
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: #ffffff;
+  padding: 0.6rem 0.72rem;
+  color: var(--text);
+  font: inherit;
+}
+
+.suggestion-field textarea {
+  resize: vertical;
+}
+
+.suggestion-submit {
+  margin-top: 0.2rem;
+  border: 0;
+  border-radius: 11px;
+  padding: 0.68rem 1rem;
+  background: linear-gradient(120deg, #0f766e, #155e75);
+  color: #ffffff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.suggestion-submit:hover {
+  filter: brightness(1.05);
+}
+
+.suggestion-status {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.suggestion-status--error {
+  color: #b91c1c;
 }
 
 .footer-note {
@@ -316,6 +483,10 @@ body {
   }
 
   .toolbar__field:first-child {
+    grid-column: span 12;
+  }
+
+  .suggestion-field {
     grid-column: span 12;
   }
 }
