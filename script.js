@@ -5,9 +5,9 @@ const elements = {
   form: document.getElementById("repo-filters"),
   search: document.getElementById("search-input"),
   category: document.getElementById("category-select"),
+  assetType: document.getElementById("type-select"),
   tag: document.getElementById("tag-select"),
   featured: document.getElementById("featured-only"),
-  papersOnly: document.getElementById("papers-only"),
   paperTotal: document.getElementById("paper-total"),
   paperLibraryCount: document.getElementById("paper-library-count"),
   paperList: document.getElementById("paper-list"),
@@ -21,8 +21,8 @@ const elements = {
   directMailtoLink: document.getElementById("direct-mailto-link"),
 };
 
-let repos = [];
-let featuredRepos = [];
+let assets = [];
+let featuredAssets = [];
 
 function initThemeToggle() {
   const toggle = document.getElementById("theme-toggle");
@@ -69,68 +69,129 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
-function normalizePapers(papers) {
-  if (!Array.isArray(papers)) {
-    return [];
+function normalizeAssetType(assetType, hasRepoCoordinates) {
+  const type = String(assetType || "").trim().toLowerCase();
+
+  if (!type && hasRepoCoordinates) {
+    return "GitHub Repo";
   }
 
-  return papers
-    .map((paper) => {
-      if (!paper || typeof paper !== "object") {
-        return null;
-      }
+  if (type === "paper") {
+    return "Paper";
+  }
 
-      const title = String(paper.title || "").trim();
-      const url = String(paper.url || "").trim();
+  if (type === "skill" || type === "skills") {
+    return "Skill";
+  }
 
-      if (!title || !url) {
-        return null;
-      }
+  if (type === "github repo" || type === "repo" || type === "repository" || type === "github") {
+    return "GitHub Repo";
+  }
 
-      return { title, url };
-    })
-    .filter(Boolean);
+  return type ? type.charAt(0).toUpperCase() + type.slice(1) : "Asset";
 }
 
-function normalizeRepo(repo) {
-  const fullName = `${repo.owner}/${repo.repo}`;
-  const useCase = String(repo.useCase || "").trim();
-  const rawDescription = String(repo.description || "").trim();
-  const category = String(repo.category || "").trim() || "Uncategorized";
-  const tags = (repo.tags || []).map((tag) => String(tag).toLowerCase().replace(/\s+/g, "-")).filter(Boolean);
-  const tagPreview = tags.slice(0, 2).join(" and ") || "practical AI workflows";
-  const generatedSummary = `A ${category} repository focused on ${tagPreview}.`;
+function buildAssetTitle(raw) {
+  const owner = String(raw.owner || "").trim();
+  const repo = String(raw.repo || "").trim();
+  const explicitTitle = String(raw.title || "").trim();
+
+  if (explicitTitle) {
+    return explicitTitle;
+  }
+
+  if (owner && repo) {
+    return `${owner}/${repo}`;
+  }
+
+  return "Untitled asset";
+}
+
+function buildAssetUrl(raw) {
+  const explicitUrl = String(raw.url || "").trim();
+  const owner = String(raw.owner || "").trim();
+  const repo = String(raw.repo || "").trim();
+
+  if (explicitUrl) {
+    return explicitUrl;
+  }
+
+  if (owner && repo) {
+    return `https://github.com/${owner}/${repo}`;
+  }
+
+  return "#";
+}
+
+function buildSourceLabel(assetType, raw, url) {
+  const owner = String(raw.owner || "").trim();
+  const repo = String(raw.repo || "").trim();
+
+  if (assetType === "GitHub Repo" && owner && repo) {
+    return `${owner}/${repo}`;
+  }
+
+  try {
+    const host = new URL(url).hostname.replace(/^www\./, "");
+    return host;
+  } catch (error) {
+    return "external";
+  }
+}
+
+function normalizeAsset(raw) {
+  const owner = String(raw.owner || "").trim();
+  const repo = String(raw.repo || "").trim();
+  const hasRepoCoordinates = Boolean(owner && repo);
+  const assetType = normalizeAssetType(raw.assetType, hasRepoCoordinates);
+  const title = buildAssetTitle(raw);
+  const url = buildAssetUrl(raw);
+  const category = String(raw.category || "General").trim() || "General";
+  const useCase = String(raw.useCase || "").trim();
+  const rawDescription = String(raw.description || "").trim();
+  const rawSummary = String(raw.summary || "").trim();
+  const tags = (raw.tags || []).map((tag) => String(tag).toLowerCase().replace(/\s+/g, "-")).filter(Boolean);
+  const tagPreview = tags.slice(0, 2).join(" and ") || "practical workflows";
+  const generatedSummary = `${assetType} asset for ${tagPreview}.`;
   const description = rawDescription || useCase || generatedSummary;
+  const summary = rawSummary || rawDescription || useCase || generatedSummary;
+  const source = buildSourceLabel(assetType, raw, url);
+  const id = `${assetType}:${title}:${url}`.toLowerCase().replace(/\s+/g, "-");
 
   return {
-    id: fullName.toLowerCase().replace("/", "-"),
-    owner: repo.owner,
-    repo: repo.repo,
-    fullName,
-    url: `https://github.com/${repo.owner}/${repo.repo}`,
-    description,
+    id,
+    assetType,
+    title,
+    url,
     category,
     tags,
-    featured: Boolean(repo.featured),
+    description,
+    summary,
     useCase,
-    papers: normalizePapers(repo.papers),
+    featured: Boolean(raw.featured),
+    source,
   };
 }
 
-function sortRepos(a, b) {
+function sortAssets(a, b) {
   if (a.featured !== b.featured) {
     return a.featured ? -1 : 1;
   }
 
-  return a.fullName.localeCompare(b.fullName);
+  const typeCompare = a.assetType.localeCompare(b.assetType);
+  if (typeCompare !== 0) {
+    return typeCompare;
+  }
+
+  return a.title.localeCompare(b.title);
 }
 
 function updateHeaderStats() {
-  const categories = new Set(repos.map((repo) => repo.category));
-  const paperCount = repos.reduce((acc, repo) => acc + repo.papers.length, 0);
+  const categories = new Set(assets.map((asset) => asset.category));
+  const paperCount = assets.filter((asset) => asset.assetType === "Paper").length;
 
   if (elements.repoTotal) {
-    elements.repoTotal.textContent = `${repos.length} repositories`;
+    elements.repoTotal.textContent = `${assets.length} assets`;
   }
 
   if (elements.categoryTotal) {
@@ -138,69 +199,48 @@ function updateHeaderStats() {
   }
 
   if (elements.paperTotal) {
-    elements.paperTotal.textContent = `${paperCount} paper links`;
+    elements.paperTotal.textContent = `${paperCount} paper assets`;
   }
 }
 
-function collectPapers(sourceRepos) {
-  const paperMap = new Map();
-
-  sourceRepos.forEach((repo) => {
-    repo.papers.forEach((paper) => {
-      const key = paper.url.toLowerCase();
-
-      if (!paperMap.has(key)) {
-        paperMap.set(key, {
-          title: paper.title,
-          url: paper.url,
-          sources: [repo.fullName],
-        });
-        return;
-      }
-
-      const existing = paperMap.get(key);
-      existing.sources.push(repo.fullName);
-    });
-  });
-
-  return [...paperMap.values()].sort((a, b) => a.title.localeCompare(b.title));
+function collectPaperAssets(sourceAssets) {
+  return sourceAssets
+    .filter((asset) => asset.assetType === "Paper")
+    .sort((a, b) => a.title.localeCompare(b.title));
 }
 
-function renderPaperLibrary(sourceRepos) {
+function renderPaperLibrary(sourceAssets) {
   if (!elements.paperList || !elements.paperLibraryCount) {
     return;
   }
 
-  const papers = collectPapers(sourceRepos);
+  const paperAssets = collectPaperAssets(sourceAssets);
 
-  if (!papers.length) {
+  if (!paperAssets.length) {
     elements.paperList.replaceChildren();
-    elements.paperLibraryCount.textContent = "0 curated paper links in the current view.";
+    elements.paperLibraryCount.textContent = "0 paper assets in the current view.";
     return;
   }
 
-  const paperItems = papers.map((paper) => {
+  const paperItems = paperAssets.map((paper) => {
     const item = document.createElement("li");
     item.className = "paper-library__item";
-
-    const sourcePreview = paper.sources.slice(0, 2).join(" · ");
-    const sourceSuffix = paper.sources.length > 2 ? ` +${paper.sources.length - 2} more` : "";
-
     item.innerHTML = `
       <a class="paper-library__link" href="${escapeHtml(paper.url)}" target="_blank" rel="noreferrer noopener">${escapeHtml(paper.title)}</a>
-      <span class="paper-library__source">from ${escapeHtml(sourcePreview)}${escapeHtml(sourceSuffix)}</span>
+      <p class="paper-library__summary">${escapeHtml(paper.summary)}</p>
+      <span class="paper-library__source">${escapeHtml(paper.category)} · ${escapeHtml(paper.source)}</span>
     `;
-
     return item;
   });
 
   elements.paperList.replaceChildren(...paperItems);
-  elements.paperLibraryCount.textContent = `${papers.length} curated paper links in the current view.`;
+  elements.paperLibraryCount.textContent = `${paperAssets.length} paper assets in the current view.`;
 }
 
 function populateOptions() {
-  const categories = [...new Set(repos.map((repo) => repo.category))].sort((a, b) => a.localeCompare(b));
-  const tags = [...new Set(repos.flatMap((repo) => repo.tags))].sort((a, b) => a.localeCompare(b));
+  const categories = [...new Set(assets.map((asset) => asset.category))].sort((a, b) => a.localeCompare(b));
+  const assetTypes = [...new Set(assets.map((asset) => asset.assetType))].sort((a, b) => a.localeCompare(b));
+  const tags = [...new Set(assets.flatMap((asset) => asset.tags))].sort((a, b) => a.localeCompare(b));
 
   if (elements.category) {
     categories.forEach((category) => {
@@ -208,6 +248,15 @@ function populateOptions() {
       option.value = category;
       option.textContent = category;
       elements.category.appendChild(option);
+    });
+  }
+
+  if (elements.assetType) {
+    assetTypes.forEach((assetType) => {
+      const option = document.createElement("option");
+      option.value = assetType;
+      option.textContent = assetType;
+      elements.assetType.appendChild(option);
     });
   }
 
@@ -221,57 +270,38 @@ function populateOptions() {
   }
 }
 
-function createRepoCard(repo) {
+function createAssetCard(asset) {
   const article = document.createElement("article");
   article.className = "repo-card";
-  article.dataset.repoId = repo.id;
-  article.dataset.paperCount = String(repo.papers.length);
+  article.dataset.assetId = asset.id;
 
-  const tagsMarkup = repo.tags.length
-    ? repo.tags.map((tag) => `<span class="repo-tag">#${escapeHtml(tag)}</span>`).join("")
+  const tagsMarkup = asset.tags.length
+    ? asset.tags.map((tag) => `<span class="repo-tag">#${escapeHtml(tag)}</span>`).join("")
     : '<span class="repo-tag repo-tag--muted">#untagged</span>';
 
-  const papersMarkup = repo.papers.length
-    ? `
-      <section class="repo-card__papers" aria-label="Relevant papers for ${escapeHtml(repo.fullName)}">
-        <h3>Papers</h3>
-        <ul>
-          ${repo.papers
-            .map(
-              (paper) =>
-                `<li><a class="repo-paper-link" href="${escapeHtml(paper.url)}" target="_blank" rel="noreferrer noopener">${escapeHtml(paper.title)}</a></li>`,
-            )
-            .join("")}
-        </ul>
-      </section>
-    `
-    : "";
-
-  const useCaseMarkup = repo.useCase && repo.useCase !== repo.description
-    ? `<p class="repo-use-case"><strong>Use case:</strong> ${escapeHtml(repo.useCase)}</p>`
+  const useCaseMarkup = asset.useCase && asset.useCase !== asset.description
+    ? `<p class="repo-use-case"><strong>Use case:</strong> ${escapeHtml(asset.useCase)}</p>`
     : "";
 
   article.innerHTML = `
     <header class="repo-card__head">
-      <a class="repo-card__title" href="${escapeHtml(repo.url)}" target="_blank" rel="noreferrer noopener">${escapeHtml(repo.fullName)}</a>
-      ${repo.featured ? '<span class="repo-badge">featured</span>' : ""}
+      <a class="repo-card__title" href="${escapeHtml(asset.url)}" target="_blank" rel="noreferrer noopener">${escapeHtml(asset.title)}</a>
+      ${asset.featured ? '<span class="repo-badge">featured</span>' : ""}
     </header>
 
-    <p class="repo-card__description">${escapeHtml(repo.description)}</p>
+    <p class="repo-card__description">${escapeHtml(asset.description)}</p>
 
     ${useCaseMarkup}
 
-    <ul class="repo-card__meta" aria-label="Repository metadata for ${escapeHtml(repo.fullName)}">
-      <li>${escapeHtml(repo.category)}</li>
-      <li>GitHub resource</li>
-      ${repo.papers.length ? `<li>${repo.papers.length} paper link${repo.papers.length > 1 ? "s" : ""}</li>` : ""}
+    <ul class="repo-card__meta" aria-label="Asset metadata for ${escapeHtml(asset.title)}">
+      <li>${escapeHtml(asset.assetType)}</li>
+      <li>${escapeHtml(asset.category)}</li>
+      <li>${escapeHtml(asset.source)}</li>
     </ul>
 
     <div class="repo-card__tags" aria-label="Tags">
       ${tagsMarkup}
     </div>
-
-    ${papersMarkup}
   `;
 
   return article;
@@ -314,25 +344,24 @@ function renderFeaturedCarousel() {
     return;
   }
 
-  if (!featuredRepos.length) {
+  if (!featuredAssets.length) {
     elements.featuredTrack.replaceChildren();
-    elements.featuredLabel.textContent = "No featured repositories available yet.";
+    elements.featuredLabel.textContent = "No featured assets available yet.";
     return;
   }
 
-  const visible = pickDailyFeatured(featuredRepos, 3);
+  const visible = pickDailyFeatured(featuredAssets, 3);
 
-  const cards = visible.map((repo) => {
+  const cards = visible.map((asset) => {
     const card = document.createElement("article");
     card.className = "featured-card";
 
-    const tags = repo.tags.slice(0, 3).map((tag) => `#${escapeHtml(tag)}`).join(" ");
-    const paperLine = repo.papers.length ? ` · ${repo.papers.length} paper link${repo.papers.length > 1 ? "s" : ""}` : "";
+    const tags = asset.tags.slice(0, 3).map((tag) => `#${escapeHtml(tag)}`).join(" ");
 
     card.innerHTML = `
-      <a class="featured-card__title" href="${escapeHtml(repo.url)}" target="_blank" rel="noreferrer noopener">${escapeHtml(repo.fullName)}</a>
-      <p class="featured-card__summary">${escapeHtml(repo.description)}</p>
-      <p class="featured-card__meta">${escapeHtml(repo.category)}${paperLine}</p>
+      <a class="featured-card__title" href="${escapeHtml(asset.url)}" target="_blank" rel="noreferrer noopener">${escapeHtml(asset.title)}</a>
+      <p class="featured-card__summary">${escapeHtml(asset.description)}</p>
+      <p class="featured-card__meta">${escapeHtml(asset.assetType)} · ${escapeHtml(asset.category)}</p>
       <p class="featured-card__tags">${tags || "#untagged"}</p>
     `;
 
@@ -340,72 +369,71 @@ function renderFeaturedCarousel() {
   });
 
   elements.featuredTrack.replaceChildren(...cards);
-  elements.featuredLabel.textContent = `Daily seed selection active · showing ${visible.length} of ${featuredRepos.length} featured entries.`;
+  elements.featuredLabel.textContent = `Daily seed selection active · showing ${visible.length} of ${featuredAssets.length} featured assets.`;
 }
 
-function initFeaturedCarousel(allRepos) {
-  featuredRepos = allRepos.filter((repo) => repo.featured);
+function initFeaturedCarousel(allAssets) {
+  featuredAssets = allAssets.filter((asset) => asset.featured);
 
-  if (!featuredRepos.length) {
-    featuredRepos = [...allRepos];
+  if (!featuredAssets.length) {
+    featuredAssets = [...allAssets];
   }
 
   renderFeaturedCarousel();
 }
 
-function renderRepos(filteredRepos) {
+function renderAssets(filteredAssets) {
   if (!elements.repoList || !elements.resultCount || !elements.emptyState) {
     return;
   }
 
-  elements.repoList.replaceChildren(...filteredRepos.map((repo) => createRepoCard(repo)));
-  renderPaperLibrary(filteredRepos);
-  elements.resultCount.textContent = `Showing ${filteredRepos.length} repositories.`;
-  elements.emptyState.hidden = filteredRepos.length > 0;
+  elements.repoList.replaceChildren(...filteredAssets.map((asset) => createAssetCard(asset)));
+  renderPaperLibrary(filteredAssets);
+  elements.resultCount.textContent = `Showing ${filteredAssets.length} assets.`;
+  elements.emptyState.hidden = filteredAssets.length > 0;
 }
 
-function matchesQuery(repo, query) {
+function matchesQuery(asset, query) {
   if (!query) {
     return true;
   }
 
-  const paperText = repo.papers.map((paper) => paper.title).join(" ");
-  const haystack = `${repo.fullName} ${repo.description} ${repo.tags.join(" ")} ${paperText}`.toLowerCase();
+  const haystack = `${asset.title} ${asset.description} ${asset.assetType} ${asset.category} ${asset.tags.join(" ")}`.toLowerCase();
   return haystack.includes(query);
 }
 
 function runFilters() {
   const query = (elements.search?.value || "").trim().toLowerCase();
   const category = elements.category?.value || "all";
+  const assetType = elements.assetType?.value || "all";
   const tag = elements.tag?.value || "all";
   const featuredOnly = Boolean(elements.featured?.checked);
-  const papersOnly = Boolean(elements.papersOnly?.checked);
 
-  const filtered = repos.filter((repo) => {
-    if (!matchesQuery(repo, query)) {
+  const filtered = assets.filter((asset) => {
+    if (!matchesQuery(asset, query)) {
       return false;
     }
 
-    if (category !== "all" && repo.category !== category) {
+    if (category !== "all" && asset.category !== category) {
       return false;
     }
 
-    if (tag !== "all" && !repo.tags.includes(tag)) {
+    if (assetType !== "all" && asset.assetType !== assetType) {
       return false;
     }
 
-    if (featuredOnly && !repo.featured) {
+    if (tag !== "all" && !asset.tags.includes(tag)) {
       return false;
     }
 
-    if (papersOnly && repo.papers.length === 0) {
+    if (featuredOnly && !asset.featured) {
       return false;
     }
 
     return true;
   });
 
-  renderRepos(filtered);
+  renderAssets(filtered);
 }
 
 function isValidEmail(email) {
@@ -416,7 +444,7 @@ function readSetting(key, fallback = "") {
   return String(elements.shell?.dataset[key] || fallback).trim();
 }
 
-function buildSuggestionMailtoUrl(formData) {
+function buildSuggestionMailtoUrl() {
   const target = readSetting("suggestionEmail");
   const cc = readSetting("suggestionCc");
   const bcc = readSetting("suggestionBcc");
@@ -426,26 +454,16 @@ function buildSuggestionMailtoUrl(formData) {
     return null;
   }
 
-  const type = String(formData?.get("type") || "General").trim();
-  const title = String(formData?.get("title") || "New Resource Suggestion").trim();
-  const link = String(formData?.get("link") || "").trim();
-  const contact = String(formData?.get("contact") || "").trim();
-  const notes = String(formData?.get("notes") || "").trim();
-  const typeTag = type.toUpperCase().replace(/\s+/g, "-");
-
-  const subject = `${prefix}[${typeTag}] ${title}`;
+  const subject = `${prefix}[ASSET] New Asset Suggestion`;
   const bodyLines = [
     "New suggestion for IIDA: Data Excellence AI Knowledge Base",
     "",
-    `Tags: #iida #data-excellence #suggestion #${typeTag.toLowerCase()}`,
-    `Type: ${type}`,
-    `Title: ${title}`,
-    `Link: ${link || "n/a"}`,
-    `Contact: ${contact || "n/a"}`,
+    "Tags: #iida #data-excellence #suggestion #asset",
+    "Asset Type: Skill / Paper / GitHub Repo / Other",
+    "Title: n/a",
+    "Link: n/a",
+    "Context: n/a",
     `Source URL: ${window.location.href}`,
-    "",
-    "Notes:",
-    notes || "n/a",
   ];
 
   const params = new URLSearchParams();
@@ -468,7 +486,7 @@ function initDirectMailtoLink() {
     return;
   }
 
-  const mailtoUrl = buildSuggestionMailtoUrl(null);
+  const mailtoUrl = buildSuggestionMailtoUrl();
 
   if (!mailtoUrl) {
     elements.directMailtoLink.setAttribute("href", "#");
@@ -482,12 +500,12 @@ function initDirectMailtoLink() {
 
 function handleLoadError() {
   if (elements.resultCount) {
-    elements.resultCount.textContent = "Unable to load repository data.";
+    elements.resultCount.textContent = "Unable to load asset data.";
   }
 
   if (elements.emptyState) {
     elements.emptyState.hidden = false;
-    elements.emptyState.textContent = "The repository list could not be loaded. Please refresh and try again.";
+    elements.emptyState.textContent = "The asset list could not be loaded. Please refresh and try again.";
   }
 }
 
@@ -505,13 +523,13 @@ async function init() {
       throw new Error(`Failed to fetch seed data: ${response.status}`);
     }
 
-    const seedRepos = await response.json();
-    repos = seedRepos.map((repo) => normalizeRepo(repo)).sort(sortRepos);
+    const seedAssets = await response.json();
+    assets = seedAssets.map((asset) => normalizeAsset(asset)).sort(sortAssets);
 
     updateHeaderStats();
-    initFeaturedCarousel(repos);
+    initFeaturedCarousel(assets);
     populateOptions();
-    renderRepos(repos);
+    renderAssets(assets);
 
     elements.form.addEventListener("input", runFilters);
     elements.form.addEventListener("change", runFilters);
@@ -522,4 +540,4 @@ async function init() {
   }
 }
 
-init();
+void init();

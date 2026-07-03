@@ -1,141 +1,34 @@
 [
   {
+    "assetType": "GitHub Repo",
     "owner": "openai",
     "repo": "openai-cookbook",
     "category": "Foundation Models",
     "tags": ["llm", "api", "examples"],
     "description": "Practical examples for building with modern OpenAI APIs.",
     "useCase": "Rapidly prototype assistants, extraction flows, and eval-ready API integrations.",
-    "papers": [
-      {
-        "title": "GPT-4 Technical Report",
-        "url": "https://arxiv.org/abs/2303.08774"
-      },
-      {
-        "title": "Training language models to follow instructions with human feedback",
-        "url": "https://arxiv.org/abs/2203.02155"
-      }
-    ],
     "featured": true
   },
   {
+    "assetType": "GitHub Repo",
     "owner": "huggingface",
     "repo": "transformers",
     "category": "Foundation Models",
     "tags": ["nlp", "vision", "models"],
     "description": "Core library for transformer models across tasks.",
     "useCase": "Train and fine-tune state-of-the-art language and vision models with one standard API.",
-    "papers": [
-      {
-        "title": "Attention Is All You Need",
-        "url": "https://arxiv.org/abs/1706.03762"
-      },
-      {
-        "title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
-        "url": "https://arxiv.org/abs/1810.04805"
-      }
-    ],
     "featured": true
   },
   {
-    "owner": "karpathy",
-    "repo": "nanoGPT",
-    "category": "Foundation Models",
-    "tags": ["gpt", "training", "pytorch"],
-    "description": "Minimal, readable GPT training code for learning and experimentation.",
-    "useCase": "Train a compact GPT model end-to-end to understand modern LLM training fundamentals.",
-    "papers": [
-      {
-        "title": "Attention Is All You Need",
-        "url": "https://arxiv.org/abs/1706.03762"
-      },
-      {
-        "title": "Language Models are Unsupervised Multitask Learners",
-        "url": "https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf"
-      }
-    ]
-  },
-  {
+    "assetType": "GitHub Repo",
     "owner": "langchain-ai",
     "repo": "langchain",
     "category": "Frameworks",
     "tags": ["agents", "rag", "chains"],
-    "description": "Framework for building LLM applications with composable chains, tools, and agent workflows.",
-    "papers": [
-      {
-        "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
-        "url": "https://arxiv.org/abs/2210.03629"
-      }
-    ]
+    "description": "Framework for building LLM applications with composable chains, tools, and agent workflows."
   },
   {
-    "owner": "run-llama",
-    "repo": "llama_index",
-    "category": "RAG",
-    "tags": ["rag", "retrieval", "indexing"],
-    "description": "Data framework for connecting LLMs to private data sources with indexing and retrieval pipelines.",
-    "useCase": "Create question-answering systems over internal docs, wikis, and knowledge bases.",
-    "papers": [
-      {
-        "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
-        "url": "https://arxiv.org/abs/2005.11401"
-      }
-    ],
-    "featured": true
-  },
-  {
-    "owner": "deepset-ai",
-    "repo": "haystack",
-    "category": "RAG",
-    "tags": ["search", "pipelines", "qa"],
-    "description": "Open-source framework for production-ready search, RAG, and question-answering systems.",
-    "useCase": "Compose production-grade retrieval pipelines with eval loops and observability hooks.",
-    "papers": [
-      {
-        "title": "Dense Passage Retrieval for Open-Domain Question Answering",
-        "url": "https://arxiv.org/abs/2004.04906"
-      }
-    ]
-  },
-  {
-    "owner": "Astro-Han",
-    "repo": "karpathy-llm-wiki",
-    "category": "RAG",
-    "tags": ["llm-wiki", "knowledge-base", "markdown"],
-    "description": "Community implementation of the Karpathy-style LLM wiki pattern for persistent AI knowledge bases.",
-    "useCase": "Build a citation-friendly markdown knowledge base that compounds over time from curated sources."
-  },
-  {
-    "owner": "microsoft",
-    "repo": "autogen",
-    "category": "Agents",
-    "tags": ["agents", "multi-agent", "orchestration"],
-    "description": "Agent framework for building multi-agent conversations and tool-driven automation workflows.",
-    "useCase": "Coordinate specialized agents for planning, coding, review, and tool execution.",
-    "papers": [
-      {
-        "title": "AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation",
-        "url": "https://arxiv.org/abs/2308.08155"
-      }
-    ],
-    "featured": true
-  },
-  {
-    "owner": "crewAIInc",
-    "repo": "crewAI",
-    "category": "Agents",
-    "tags": ["agents", "automation", "workflows"],
-    "description": "Framework for orchestrating role-based AI agents to collaborate on complex tasks."
-  },
-  {
-    "owner": "modelcontextprotocol",
-    "repo": "servers",
-    "category": "Agents",
-    "tags": ["mcp", "tools", "protocol"],
-    "description": "Official Model Context Protocol server implementations for connecting agents to external tools and data.",
-    "featured": true
-  },
-  {
+    "assetType": "GitHub Repo",
     "owner": "microsoft",
     "repo": "semantic-kernel",
     "category": "Frameworks",
@@ -143,49 +36,7 @@
     "description": "SDK for orchestrating AI functions, plugins, and multi-step copilot experiences across languages."
   },
   {
-    "owner": "gradio-app",
-    "repo": "gradio",
-    "category": "AI UI",
-    "tags": ["ui", "demo", "python"],
-    "description": "Python toolkit for building and sharing interactive web interfaces for AI models.",
-    "useCase": "Ship interactive model demos quickly for internal stakeholders and external users."
-  },
-  {
-    "owner": "microsoft",
-    "repo": "Promptflow",
-    "category": "Evaluation",
-    "tags": ["evaluation", "tracing", "pipelines"],
-    "description": "Platform for developing, tracing, and evaluating LLM workflows and prompt pipelines."
-  },
-  {
-    "owner": "explodinggradients",
-    "repo": "ragas",
-    "category": "Evaluation",
-    "tags": ["rag", "metrics", "quality"],
-    "description": "Evaluation framework for measuring retrieval and generation quality in RAG applications.",
-    "useCase": "Track retrieval and answer quality over time for RAG systems in production.",
-    "papers": [
-      {
-        "title": "RAGAS: Automated Evaluation of Retrieval Augmented Generation",
-        "url": "https://arxiv.org/abs/2309.15217"
-      }
-    ]
-  },
-  
-  {
-    "owner": "anthropics",
-    "repo": "anthropic-cookbook",
-    "category": "Foundation Models",
-    "tags": ["api", "examples", "agents"],
-    "description": "Practical examples and implementation guides for building with Anthropic APIs.",
-    "papers": [
-      {
-        "title": "Constitutional AI: Harmlessness from AI Feedback",
-        "url": "https://arxiv.org/abs/2212.08073"
-      }
-    ]
-  },
-  {
+    "assetType": "GitHub Repo",
     "owner": "microsoft",
     "repo": "markitdown",
     "category": "Developer Tooling",
@@ -193,6 +44,7 @@
     "description": "Utility for converting diverse document formats into markdown for downstream AI pipelines."
   },
   {
+    "assetType": "GitHub Repo",
     "owner": "DietrichGebert",
     "repo": "ponytail",
     "category": "Developer Tooling",
@@ -201,6 +53,7 @@
     "useCase": "Standardize agent behavior so teams produce simpler, lower-maintenance code during AI-assisted development."
   },
   {
+    "assetType": "GitHub Repo",
     "owner": "affaan-m",
     "repo": "ECC",
     "category": "Developer Tooling",
@@ -209,19 +62,96 @@
     "useCase": "Improve AI coding throughput with a battle-tested configuration stack for Claude Code and related tools."
   },
   {
+    "assetType": "GitHub Repo",
     "owner": "safishamsi",
     "repo": "graphify",
     "category": "Developer Tooling",
     "tags": ["claude-code", "codex", "knowledge-graph", "graphrag", "skills"],
     "description": "AI coding assistant skill that builds a queryable knowledge graph across code, schemas, infrastructure, and docs.",
-    "useCase": "Index an application stack into a single knowledge graph so coding agents can reason across app code, database schema, and infrastructure together."
+    "useCase": "Index an application stack into a single knowledge graph so coding agents can reason across app code, database schema, and infrastructure together.",
+    "featured": true
   },
   {
+    "assetType": "GitHub Repo",
     "owner": "rtk-ai",
     "repo": "rtk",
     "category": "Developer Tooling",
     "tags": ["cli", "llmops", "cost-optimization"],
     "description": "CLI proxy that reduces LLM token usage for common development commands.",
     "useCase": "Cut token spend during daily coding sessions while keeping existing AI-assisted terminal workflows."
+  },
+  {
+    "assetType": "Paper",
+    "title": "Attention Is All You Need",
+    "url": "https://arxiv.org/abs/1706.03762",
+    "category": "Foundation Models",
+    "tags": ["transformers", "architecture", "nlp"],
+    "summary": "Introduces the transformer architecture and self-attention, replacing recurrence for more parallel and scalable sequence modeling.",
+    "description": "Foundational transformer paper introducing self-attention as the core sequence modeling mechanism.",
+    "featured": true
+  },
+  {
+    "assetType": "Paper",
+    "title": "GPT-4 Technical Report",
+    "url": "https://arxiv.org/abs/2303.08774",
+    "category": "Foundation Models",
+    "tags": ["gpt-4", "evaluation", "safety"],
+    "summary": "Documents GPT-4 capabilities, limitations, and safety considerations across a broad set of benchmark and real-world tasks.",
+    "description": "Technical report covering capability and safety characteristics of GPT-4."
+  },
+  {
+    "assetType": "Paper",
+    "title": "AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation",
+    "url": "https://arxiv.org/abs/2308.08155",
+    "category": "Agents",
+    "tags": ["agents", "multi-agent", "orchestration"],
+    "summary": "Presents a framework where multiple LLM agents collaborate through conversation to solve complex tasks with tools and delegation.",
+    "description": "Introduces an agent conversation framework for collaborative task solving with LLM systems."
+  },
+  {
+    "assetType": "Paper",
+    "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+    "url": "https://arxiv.org/abs/2005.11401",
+    "category": "RAG",
+    "tags": ["rag", "retrieval", "knowledge"],
+    "summary": "Combines parametric language generation with external document retrieval to improve factuality and knowledge coverage.",
+    "description": "Seminal RAG paper combining parametric generation with non-parametric memory retrieval."
+  },
+  {
+    "assetType": "Paper",
+    "title": "RAGAS: Automated Evaluation of Retrieval Augmented Generation",
+    "url": "https://arxiv.org/abs/2309.15217",
+    "category": "Evaluation",
+    "tags": ["rag", "evaluation", "metrics"],
+    "summary": "Defines automated evaluation metrics for retrieval quality and response faithfulness in production RAG pipelines.",
+    "description": "Defines automated metrics and evaluation patterns for RAG quality tracking."
+  },
+  {
+    "assetType": "Skill",
+    "title": "Ponytail Agent Rule Pack",
+    "url": "https://github.com/DietrichGebert/ponytail",
+    "category": "Prompt Engineering",
+    "tags": ["agent-rules", "productivity", "standards"],
+    "description": "A practical rule pack for steering coding agents toward concise and maintainable outputs.",
+    "useCase": "Apply consistent guidance patterns across agent-assisted development workflows."
+  },
+  {
+    "assetType": "Skill",
+    "title": "ECC Optimization Playbook",
+    "url": "https://github.com/affaan-m/ECC",
+    "category": "Prompt Engineering",
+    "tags": ["claude-code", "optimization", "workflows"],
+    "description": "A structured optimization playbook for Claude Code with reusable skills and workflow patterns.",
+    "useCase": "Bootstrap stronger coding-agent defaults for quality, security, and speed."
+  },
+  {
+    "assetType": "Skill",
+    "title": "Graphify Knowledge Graph Skill",
+    "url": "https://github.com/safishamsi/graphify",
+    "category": "RAG",
+    "tags": ["knowledge-graph", "graphrag", "skills"],
+    "description": "Turns heterogeneous project assets into a queryable knowledge graph for coding agents.",
+    "useCase": "Help agents reason across code, docs, and infra context from one graph-backed index.",
+    "featured": true
   }
 ]

@@ -1,6 +1,6 @@
 # IIDA: Data Excellence AI Knowledge Base
 
-A curated AI knowledge base with practical GitHub repositories, relevant paper links, and concise data excellence use-case hints.
+A curated AI knowledge base where GitHub repos, papers, and skills are first-class assets.
 
 ## Stack
 
@@ -23,10 +23,10 @@ No framework build step is required.
 ## Data Flow
 
 1. Curated input list lives in `src/data/repos.seed.json`.
-2. `script.js` loads the seed list in the browser and renders repository cards.
-3. Optional `papers` links from the seed are rendered on cards.
-4. Optional `useCase` summaries are rendered on cards.
-5. Search and filters run in the browser (including paper titles).
+2. `script.js` loads the seed list in the browser and renders asset cards.
+3. Each entry is typed as `GitHub Repo`, `Paper`, or `Skill` using `assetType`.
+4. Search and filters run in the browser across asset type, category, tags, and text.
+5. A dedicated paper section is rendered from paper assets.
 6. Suggestion CTA creates a pre-filled email draft via `mailto:`.
 
 ## Deployment
@@ -39,20 +39,23 @@ Expected Pages URL:
 
 ## Updating Resources
 
-1. Add or edit repositories in `src/data/repos.seed.json`.
+1. Add or edit assets in `src/data/repos.seed.json`.
 2. Commit changes and push to `main`.
 
-### Optional Papers Field
+### Asset Entry Example
 
-You can attach relevant AI papers to any repository entry:
+Use one entry per asset:
 
 ```json
-"papers": [
-   {
-      "title": "Attention Is All You Need",
-      "url": "https://arxiv.org/abs/1706.03762"
-   }
-]
+{
+  "assetType": "Paper",
+  "title": "Attention Is All You Need",
+  "url": "https://arxiv.org/abs/1706.03762",
+  "category": "Foundation Models",
+  "tags": ["transformers", "architecture", "nlp"],
+  "description": "Foundational transformer paper introducing self-attention.",
+  "featured": true
+}
 ```
 
 ### Optional Use Case Field

@@ -6,7 +6,7 @@
     <title>IIDA | Data Excellence AI Knowledge Base</title>
     <meta
       name="description"
-      content="IIDA: a searchable AI knowledge base for practical repositories, papers, and data excellence use cases."
+      content="IIDA: a searchable AI knowledge base for skills, papers, and GitHub repos as first-class assets."
     />
     <meta name="theme-color" content="#102a43" />
     <script>
@@ -23,7 +23,7 @@
     <meta property="og:title" content="IIDA | Data Excellence AI Knowledge Base" />
     <meta
       property="og:description"
-      content="IIDA: a searchable AI knowledge base for practical repositories, papers, and data excellence use cases."
+      content="IIDA: a searchable AI knowledge base for skills, papers, and GitHub repos as first-class assets."
     />
     <meta property="og:type" content="website" />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
@@ -54,18 +54,18 @@
         </button>
         <h1>IIDA</h1>
         <p>
-          Data Excellence AI Knowledge Base: curated GitHub repositories, relevant papers, and compact use-case hints.
+          Data Excellence AI Knowledge Base: curated skills, papers, and GitHub repos as first-class assets.
           Every card links directly to source material for quick deep dives.
         </p>
         <div class="hero__meta" id="hero-meta">
-          <span id="repo-total">0 repositories</span>
+          <span id="repo-total">0 assets</span>
           <span id="category-total">0 categories</span>
-          <span id="paper-total">0 paper links</span>
+          <span id="paper-total">0 paper assets</span>
           <span>Curated from a manual seed list</span>
         </div>
       </section>
 
-      <section class="featured-carousel" aria-label="Daily featured repositories">
+      <section class="featured-carousel" aria-label="Daily featured assets">
         <div class="section-head featured-carousel__head">
           <h2>Daily Featured Picks</h2>
           <p id="featured-carousel-label">Loading daily featured selection...</p>
@@ -74,8 +74,8 @@
         <div id="featured-track" class="featured-carousel__track" aria-live="polite"></div>
       </section>
 
-      <section class="toolbar" aria-label="Search and filter repositories">
-        <h2 class="toolbar__title">Find Your Next AI Build Block</h2>
+      <section class="toolbar" aria-label="Search and filter assets">
+        <h2 class="toolbar__title">Find Your Next AI Asset</h2>
 
         <form id="repo-filters" class="toolbar__grid">
           <label class="toolbar__field" for="search-input">
@@ -95,6 +95,13 @@
             </select>
           </label>
 
+          <label class="toolbar__field" for="type-select">
+            <span>Asset Type</span>
+            <select id="type-select" name="assetType">
+              <option value="all">All asset types</option>
+            </select>
+          </label>
+
           <label class="toolbar__field" for="tag-select">
             <span>Tag</span>
             <select id="tag-select" name="tag">
@@ -107,32 +114,28 @@
             <span>Featured only</span>
           </label>
 
-          <label class="toolbar__check" for="papers-only">
-            <input id="papers-only" name="papers" type="checkbox" />
-            <span>With paper links only</span>
-          </label>
         </form>
       </section>
 
       <section class="paper-library" aria-label="Paper library">
         <div class="section-head">
-          <h2>Paper Library</h2>
-          <p id="paper-library-count">0 curated paper links in the current view.</p>
+          <h2>Paper Assets</h2>
+          <p id="paper-library-count">0 paper assets in the current view.</p>
         </div>
         <ul id="paper-list" class="paper-library__list"></ul>
       </section>
 
-      <p id="result-count" class="results-line">Loading repositories...</p>
+      <p id="result-count" class="results-line">Loading assets...</p>
 
-      <section id="repo-list" class="repo-grid" aria-label="Repository list"></section>
+      <section id="repo-list" class="repo-grid" aria-label="Asset list"></section>
 
-      <p id="empty-state" class="empty-state" hidden>No repositories match your current filters.</p>
+      <p id="empty-state" class="empty-state" hidden>No assets match your current filters.</p>
 
       <section class="suggestion-panel" aria-label="Suggest new resources">
         <div class="section-head">
           <h2>Suggest New Resources</h2>
           <p>
-            Share a useful AI repository, paper, or use case. One click opens your email app with a pre-filled suggestion draft.
+            Share a useful asset (skill, paper, GitHub repo, or use case). One click opens your email app with a pre-filled suggestion draft.
           </p>
         </div>
 
@@ -143,7 +146,7 @@
       </section>
 
       <p class="footer-note">
-        Maintained from a curated repository seed list. Links open in a new tab.
+        Maintained from a curated asset seed list. Links open in a new tab.
       </p>
     </main>
 

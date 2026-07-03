@@ -209,17 +209,13 @@ body {
 }
 
 .toolbar__field span,
-.toolbar__check span,
-.suggestion-field span {
+.toolbar__check span {
   font-size: 0.82rem;
   color: var(--cg-muted);
 }
 
 .toolbar__field input,
-.toolbar__field select,
-.suggestion-field input,
-.suggestion-field select,
-.suggestion-field textarea {
+.toolbar__field select {
   border: 1px solid var(--cg-line);
   border-radius: var(--radius-sm);
   background: #ffffff;
@@ -230,10 +226,7 @@ body {
 }
 
 .toolbar__field input:focus,
-.toolbar__field select:focus,
-.suggestion-field input:focus,
-.suggestion-field select:focus,
-.suggestion-field textarea:focus {
+.toolbar__field select:focus {
   outline: none;
   border-color: #4096c7;
   box-shadow: 0 0 0 3px rgba(64, 150, 199, 0.2);
@@ -430,6 +423,13 @@ body {
 .paper-library__link:hover {
   color: var(--cg-blue);
   text-decoration: underline;
+}
+
+.paper-library__summary {
+  margin: 0;
+  color: #2a426e;
+  font-size: 0.84rem;
+  line-height: 1.4;
 }
 
 .paper-library__source {
@@ -754,6 +754,10 @@ body {
 [data-theme="dark"] .paper-library__item {
   background: linear-gradient(180deg, #16243f, #111d34);
   border-color: #273c5e;
+}
+
+[data-theme="dark"] .paper-library__summary {
+  color: #b9c8e6;
 }
 
 [data-theme="dark"] .mailto-link {
