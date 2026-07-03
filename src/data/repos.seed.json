@@ -38,55 +38,29 @@
     "featured": true
   },
   {
-    "owner": "vllm-project",
-    "repo": "vllm",
-    "category": "Inference",
-    "tags": ["serving", "inference", "throughput"],
-    "useCase": "Serve high-traffic chat and completion workloads with better token throughput.",
+    "owner": "karpathy",
+    "repo": "nanoGPT",
+    "category": "Foundation Models",
+    "tags": ["gpt", "training", "pytorch"],
+    "description": "Minimal, readable GPT training code for learning and experimentation.",
+    "useCase": "Train a compact GPT model end-to-end to understand modern LLM training fundamentals.",
     "papers": [
       {
-        "title": "Efficient Memory Management for Large Language Model Serving with PagedAttention",
-        "url": "https://arxiv.org/abs/2309.06180"
-      }
-    ]
-  },
-  {
-    "owner": "huggingface",
-    "repo": "text-generation-inference",
-    "category": "Inference",
-    "tags": ["serving", "inference", "gpu"]
-  },
-  {
-    "owner": "ollama",
-    "repo": "ollama",
-    "category": "Local AI",
-    "tags": ["local", "models", "cli"],
-    "featured": true
-  },
-  {
-    "owner": "ggerganov",
-    "repo": "llama.cpp",
-    "category": "Local AI",
-    "tags": ["llm", "inference", "cpu"],
-    "papers": [
+        "title": "Attention Is All You Need",
+        "url": "https://arxiv.org/abs/1706.03762"
+      },
       {
-        "title": "LLaMA: Open and Efficient Foundation Language Models",
-        "url": "https://arxiv.org/abs/2302.13971"
+        "title": "Language Models are Unsupervised Multitask Learners",
+        "url": "https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf"
       }
     ]
-  },
-  {
-    "owner": "BerriAI",
-    "repo": "litellm",
-    "category": "Developer Tooling",
-    "tags": ["routing", "gateway", "llmops"],
-    "featured": true
   },
   {
     "owner": "langchain-ai",
     "repo": "langchain",
     "category": "Frameworks",
     "tags": ["agents", "rag", "chains"],
+    "description": "Framework for building LLM applications with composable chains, tools, and agent workflows.",
     "papers": [
       {
         "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
@@ -95,17 +69,11 @@
     ]
   },
   {
-    "owner": "langchain-ai",
-    "repo": "langgraph",
-    "category": "Frameworks",
-    "tags": ["agents", "state", "graphs"],
-    "useCase": "Build reliable stateful multi-step agent workflows with checkpoints and human-in-the-loop steps."
-  },
-  {
     "owner": "run-llama",
     "repo": "llama_index",
     "category": "RAG",
     "tags": ["rag", "retrieval", "indexing"],
+    "description": "Data framework for connecting LLMs to private data sources with indexing and retrieval pipelines.",
     "useCase": "Create question-answering systems over internal docs, wikis, and knowledge bases.",
     "papers": [
       {
@@ -120,6 +88,7 @@
     "repo": "haystack",
     "category": "RAG",
     "tags": ["search", "pipelines", "qa"],
+    "description": "Open-source framework for production-ready search, RAG, and question-answering systems.",
     "useCase": "Compose production-grade retrieval pipelines with eval loops and observability hooks.",
     "papers": [
       {
@@ -129,22 +98,19 @@
     ]
   },
   {
-    "owner": "stanfordnlp",
-    "repo": "dspy",
-    "category": "Prompt Engineering",
-    "tags": ["programming", "optimization", "llm"],
-    "papers": [
-      {
-        "title": "DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines",
-        "url": "https://arxiv.org/abs/2310.03714"
-      }
-    ]
+    "owner": "Astro-Han",
+    "repo": "karpathy-llm-wiki",
+    "category": "RAG",
+    "tags": ["llm-wiki", "knowledge-base", "markdown"],
+    "description": "Community implementation of the Karpathy-style LLM wiki pattern for persistent AI knowledge bases.",
+    "useCase": "Build a citation-friendly markdown knowledge base that compounds over time from curated sources."
   },
   {
     "owner": "microsoft",
     "repo": "autogen",
     "category": "Agents",
     "tags": ["agents", "multi-agent", "orchestration"],
+    "description": "Agent framework for building multi-agent conversations and tool-driven automation workflows.",
     "useCase": "Coordinate specialized agents for planning, coding, review, and tool execution.",
     "papers": [
       {
@@ -158,51 +124,45 @@
     "owner": "crewAIInc",
     "repo": "crewAI",
     "category": "Agents",
-    "tags": ["agents", "automation", "workflows"]
+    "tags": ["agents", "automation", "workflows"],
+    "description": "Framework for orchestrating role-based AI agents to collaborate on complex tasks."
   },
   {
     "owner": "modelcontextprotocol",
     "repo": "servers",
     "category": "Agents",
     "tags": ["mcp", "tools", "protocol"],
+    "description": "Official Model Context Protocol server implementations for connecting agents to external tools and data.",
     "featured": true
   },
   {
     "owner": "microsoft",
     "repo": "semantic-kernel",
     "category": "Frameworks",
-    "tags": ["orchestration", "copilot", "plugins"]
+    "tags": ["orchestration", "copilot", "plugins"],
+    "description": "SDK for orchestrating AI functions, plugins, and multi-step copilot experiences across languages."
   },
   {
     "owner": "gradio-app",
     "repo": "gradio",
     "category": "AI UI",
     "tags": ["ui", "demo", "python"],
+    "description": "Python toolkit for building and sharing interactive web interfaces for AI models.",
     "useCase": "Ship interactive model demos quickly for internal stakeholders and external users."
-  },
-  {
-    "owner": "streamlit",
-    "repo": "streamlit",
-    "category": "AI UI",
-    "tags": ["apps", "dashboard", "python"]
-  },
-  {
-    "owner": "open-webui",
-    "repo": "open-webui",
-    "category": "AI UI",
-    "tags": ["chat", "local", "self-hosted"]
   },
   {
     "owner": "microsoft",
     "repo": "Promptflow",
     "category": "Evaluation",
-    "tags": ["evaluation", "tracing", "pipelines"]
+    "tags": ["evaluation", "tracing", "pipelines"],
+    "description": "Platform for developing, tracing, and evaluating LLM workflows and prompt pipelines."
   },
   {
     "owner": "explodinggradients",
     "repo": "ragas",
     "category": "Evaluation",
     "tags": ["rag", "metrics", "quality"],
+    "description": "Evaluation framework for measuring retrieval and generation quality in RAG applications.",
     "useCase": "Track retrieval and answer quality over time for RAG systems in production.",
     "papers": [
       {
@@ -211,48 +171,13 @@
       }
     ]
   },
-  {
-    "owner": "UKPLab",
-    "repo": "sentence-transformers",
-    "category": "Embeddings",
-    "tags": ["embeddings", "retrieval", "semantic-search"],
-    "papers": [
-      {
-        "title": "Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks",
-        "url": "https://arxiv.org/abs/1908.10084"
-      }
-    ]
-  },
-  {
-    "owner": "chroma-core",
-    "repo": "chroma",
-    "category": "Vector Databases",
-    "tags": ["vector-db", "embeddings", "rag"]
-  },
-  {
-    "owner": "qdrant",
-    "repo": "qdrant",
-    "category": "Vector Databases",
-    "tags": ["vector-db", "search", "production"],
-    "useCase": "Run semantic search and recommendation systems with low-latency vector retrieval."
-  },
-  {
-    "owner": "milvus-io",
-    "repo": "milvus",
-    "category": "Vector Databases",
-    "tags": ["vector-db", "scale", "retrieval"]
-  },
-  {
-    "owner": "lm-sys",
-    "repo": "FastChat",
-    "category": "Inference",
-    "tags": ["chat", "serving", "llm"]
-  },
+  
   {
     "owner": "anthropics",
     "repo": "anthropic-cookbook",
     "category": "Foundation Models",
     "tags": ["api", "examples", "agents"],
+    "description": "Practical examples and implementation guides for building with Anthropic APIs.",
     "papers": [
       {
         "title": "Constitutional AI: Harmlessness from AI Feedback",
@@ -261,21 +186,34 @@
     ]
   },
   {
-    "owner": "Significant-Gravitas",
-    "repo": "AutoGPT",
-    "category": "Agents",
-    "tags": ["agents", "autonomy", "experiments"]
-  },
-  {
-    "owner": "assafelovic",
-    "repo": "gpt-researcher",
-    "category": "Agents",
-    "tags": ["research", "automation", "reports"]
-  },
-  {
     "owner": "microsoft",
     "repo": "markitdown",
     "category": "Developer Tooling",
-    "tags": ["documents", "conversion", "pipelines"]
+    "tags": ["documents", "conversion", "pipelines"],
+    "description": "Utility for converting diverse document formats into markdown for downstream AI pipelines."
+  },
+  {
+    "owner": "DietrichGebert",
+    "repo": "ponytail",
+    "category": "Developer Tooling",
+    "tags": ["ponytail", "agent-rules", "productivity"],
+    "description": "Toolkit for guiding AI coding agents toward minimal, practical implementation patterns.",
+    "useCase": "Standardize agent behavior so teams produce simpler, lower-maintenance code during AI-assisted development."
+  },
+  {
+    "owner": "affaan-m",
+    "repo": "ECC",
+    "category": "Developer Tooling",
+    "tags": ["claude-code", "agents", "workflow-optimization"],
+    "description": "Comprehensive Claude Code optimization system covering skills, memory, security, and agent workflows.",
+    "useCase": "Improve AI coding throughput with a battle-tested configuration stack for Claude Code and related tools."
+  },
+  {
+    "owner": "rtk-ai",
+    "repo": "rtk",
+    "category": "Developer Tooling",
+    "tags": ["cli", "llmops", "cost-optimization"],
+    "description": "CLI proxy that reduces LLM token usage for common development commands.",
+    "useCase": "Cut token spend during daily coding sessions while keeping existing AI-assisted terminal workflows."
   }
 ]

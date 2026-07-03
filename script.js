@@ -57,6 +57,12 @@ function normalizePapers(papers) {
 function normalizeRepo(repo) {
   const fullName = `${repo.owner}/${repo.repo}`;
   const useCase = String(repo.useCase || "").trim();
+  const rawDescription = String(repo.description || "").trim();
+  const category = String(repo.category || "Uncategorized").trim() || "Uncategorized";
+  const tags = (repo.tags || []).map((tag) => String(tag).toLowerCase().replace(/\s+/g, "-")).filter(Boolean);
+  const tagPreview = tags.slice(0, 2).join(" and ") || "practical AI workflows";
+  const generatedSummary = `A ${category} repository focused on ${tagPreview}.`;
+  const description = rawDescription || useCase || generatedSummary;
 
   return {
     id: fullName.toLowerCase().replace("/", "-"),
@@ -64,9 +70,9 @@ function normalizeRepo(repo) {
     repo: repo.repo,
     fullName,
     url: `https://github.com/${repo.owner}/${repo.repo}`,
-    description: repo.description || "No description provided yet.",
-    category: repo.category || "Uncategorized",
-    tags: (repo.tags || []).map((tag) => String(tag).toLowerCase().replace(/\s+/g, "-")),
+    description,
+    category,
+    tags,
     featured: Boolean(repo.featured),
     useCase,
     papers: normalizePapers(repo.papers),
@@ -203,7 +209,7 @@ function createRepoCard(repo) {
     `
     : "";
 
-  const useCaseMarkup = repo.useCase
+  const useCaseMarkup = repo.useCase && repo.useCase !== repo.description
     ? `<p class="repo-use-case"><strong>Use case:</strong> ${escapeHtml(repo.useCase)}</p>`
     : "";
 
