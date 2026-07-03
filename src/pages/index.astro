@@ -1,0 +1,159 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import RepoCard from "../components/RepoCard.astro";
+import RepoSearchFilters from "../components/RepoSearchFilters.astro";
+import seedRepos from "../data/repos.seed.json";
+
+const repos = seedRepos
+  .map((repo) => {
+    const fullName = `${repo.owner}/${repo.repo}`;
+
+    return {
+      id: fullName.toLowerCase().replace("/", "-"),
+      owner: repo.owner,
+      repo: repo.repo,
+      fullName,
+      url: `https://github.com/${repo.owner}/${repo.repo}`,
+      description: repo.description || "No description provided yet.",
+      category: repo.category || "Uncategorized",
+      tags: (repo.tags || []).map((tag) => tag.toLowerCase().replace(/\s+/g, "-")),
+      featured: Boolean(repo.featured),
+    };
+  })
+  .sort((a, b) => {
+    if (a.featured !== b.featured) {
+      return a.featured ? -1 : 1;
+    }
+
+    return a.fullName.localeCompare(b.fullName);
+  });
+
+const categories = [...new Set(repos.map((repo) => repo.category))].sort((a, b) => a.localeCompare(b));
+const tags = [...new Set(repos.flatMap((repo) => repo.tags))].sort((a, b) => a.localeCompare(b));
+---
+
+<BaseLayout
+  title="AI Resource Atlas | GitHub Repositories"
+  description="A scrollable, searchable map of practical AI repositories for builders."
+>
+  <section class="hero" aria-label="Overview">
+    <h1>AI Resource Atlas</h1>
+    <p>
+      Scroll through curated GitHub repositories for modern AI engineering. Every card links directly to the
+      repository, with quick metadata for faster comparison.
+    </p>
+    <div class="hero__meta">
+      <span>{repos.length} repositories</span>
+      <span>{categories.length} categories</span>
+      <span>Updated from seed list</span>
+      <span>Source: curated manual list</span>
+    </div>
+  </section>
+
+  <RepoSearchFilters categories={categories} tags={tags} />
+
+  <p id="result-count" class="results-line">Showing {repos.length} repositories.</p>
+
+  <section id="repo-list" class="repo-grid" aria-label="Repository list">
+    {repos.map((repo) => <RepoCard repo={repo} />)}
+  </section>
+
+  <p id="empty-state" class="empty-state" hidden>No repositories match your current filters.</p>
+
+  <p class="footer-note">
+    Maintained from a curated repository seed list. Links open in a new tab.
+  </p>
+
+  <script type="application/json" id="repo-data" set:html={JSON.stringify(repos)}></script>
+
+  <script type="module">
+    import Fuse from "fuse.js";
+
+    const dataElement = document.getElementById("repo-data");
+    const formElement = document.getElementById("repo-filters");
+    const listElement = document.getElementById("repo-list");
+    const countElement = document.getElementById("result-count");
+    const emptyElement = document.getElementById("empty-state");
+
+    if (!dataElement || !formElement || !listElement || !countElement || !emptyElement) {
+      throw new Error("Search/filter controls failed to initialize.");
+    }
+
+    const repos = JSON.parse(dataElement.textContent || "[]");
+    const cardElements = Array.from(listElement.querySelectorAll(".repo-card"));
+
+    const fuse = new Fuse(repos, {
+      includeScore: true,
+      shouldSort: true,
+      threshold: 0.32,
+      ignoreLocation: true,
+      keys: [
+        { name: "fullName", weight: 0.5 },
+        { name: "description", weight: 0.3 },
+        { name: "tags", weight: 0.2 },
+      ],
+    });
+
+    const controls = {
+      query: document.getElementById("search-input"),
+      category: document.getElementById("category-select"),
+      tag: document.getElementById("tag-select"),
+      featured: document.getElementById("featured-only"),
+    };
+
+    const applyVisibility = (visibleIds) => {
+      let visibleCount = 0;
+
+      cardElements.forEach((card) => {
+        const id = card.getAttribute("data-repo-id");
+        const visible = visibleIds.has(id);
+        card.hidden = !visible;
+
+        if (visible) {
+          visibleCount += 1;
+        }
+      });
+
+      countElement.textContent = `Showing ${visibleCount} repositories.`;
+      emptyElement.hidden = visibleCount > 0;
+    };
+
+    const runFilters = () => {
+      const query = String(controls.query?.value || "").trim();
+      const category = String(controls.category?.value || "all");
+      const tag = String(controls.tag?.value || "all");
+      const featuredOnly = Boolean(controls.featured?.checked);
+
+      const querySet = query
+        ? new Set(fuse.search(query).map((match) => match.item.id))
+        : new Set(repos.map((repo) => repo.id));
+
+      const filtered = repos.filter((repo) => {
+        if (!querySet.has(repo.id)) {
+          return false;
+        }
+
+        if (category !== "all" && repo.category !== category) {
+          return false;
+        }
+
+        if (tag !== "all" && !repo.tags.includes(tag)) {
+          return false;
+        }
+
+        if (featuredOnly && !repo.featured) {
+          return false;
+        }
+
+        return true;
+      });
+
+      applyVisibility(new Set(filtered.map((repo) => repo.id)));
+    };
+
+    formElement.addEventListener("input", runFilters);
+    formElement.addEventListener("change", runFilters);
+
+    runFilters();
+  </script>
+</BaseLayout>

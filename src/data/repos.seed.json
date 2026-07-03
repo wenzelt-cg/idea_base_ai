@@ -1,0 +1,191 @@
+[
+  {
+    "owner": "openai",
+    "repo": "openai-cookbook",
+    "category": "Foundation Models",
+    "tags": ["llm", "api", "examples"],
+    "description": "Practical examples for building with modern OpenAI APIs.",
+    "featured": true
+  },
+  {
+    "owner": "huggingface",
+    "repo": "transformers",
+    "category": "Foundation Models",
+    "tags": ["nlp", "vision", "models"],
+    "description": "Core library for transformer models across tasks.",
+    "featured": true
+  },
+  {
+    "owner": "vllm-project",
+    "repo": "vllm",
+    "category": "Inference",
+    "tags": ["serving", "inference", "throughput"]
+  },
+  {
+    "owner": "huggingface",
+    "repo": "text-generation-inference",
+    "category": "Inference",
+    "tags": ["serving", "inference", "gpu"]
+  },
+  {
+    "owner": "ollama",
+    "repo": "ollama",
+    "category": "Local AI",
+    "tags": ["local", "models", "cli"],
+    "featured": true
+  },
+  {
+    "owner": "ggerganov",
+    "repo": "llama.cpp",
+    "category": "Local AI",
+    "tags": ["llm", "inference", "cpu"]
+  },
+  {
+    "owner": "BerriAI",
+    "repo": "litellm",
+    "category": "Developer Tooling",
+    "tags": ["routing", "gateway", "llmops"],
+    "featured": true
+  },
+  {
+    "owner": "langchain-ai",
+    "repo": "langchain",
+    "category": "Frameworks",
+    "tags": ["agents", "rag", "chains"]
+  },
+  {
+    "owner": "langchain-ai",
+    "repo": "langgraph",
+    "category": "Frameworks",
+    "tags": ["agents", "state", "graphs"]
+  },
+  {
+    "owner": "run-llama",
+    "repo": "llama_index",
+    "category": "RAG",
+    "tags": ["rag", "retrieval", "indexing"],
+    "featured": true
+  },
+  {
+    "owner": "deepset-ai",
+    "repo": "haystack",
+    "category": "RAG",
+    "tags": ["search", "pipelines", "qa"]
+  },
+  {
+    "owner": "stanfordnlp",
+    "repo": "dspy",
+    "category": "Prompt Engineering",
+    "tags": ["programming", "optimization", "llm"]
+  },
+  {
+    "owner": "microsoft",
+    "repo": "autogen",
+    "category": "Agents",
+    "tags": ["agents", "multi-agent", "orchestration"],
+    "featured": true
+  },
+  {
+    "owner": "crewAIInc",
+    "repo": "crewAI",
+    "category": "Agents",
+    "tags": ["agents", "automation", "workflows"]
+  },
+  {
+    "owner": "modelcontextprotocol",
+    "repo": "servers",
+    "category": "Agents",
+    "tags": ["mcp", "tools", "protocol"],
+    "featured": true
+  },
+  {
+    "owner": "microsoft",
+    "repo": "semantic-kernel",
+    "category": "Frameworks",
+    "tags": ["orchestration", "copilot", "plugins"]
+  },
+  {
+    "owner": "gradio-app",
+    "repo": "gradio",
+    "category": "AI UI",
+    "tags": ["ui", "demo", "python"]
+  },
+  {
+    "owner": "streamlit",
+    "repo": "streamlit",
+    "category": "AI UI",
+    "tags": ["apps", "dashboard", "python"]
+  },
+  {
+    "owner": "open-webui",
+    "repo": "open-webui",
+    "category": "AI UI",
+    "tags": ["chat", "local", "self-hosted"]
+  },
+  {
+    "owner": "microsoft",
+    "repo": "Promptflow",
+    "category": "Evaluation",
+    "tags": ["evaluation", "tracing", "pipelines"]
+  },
+  {
+    "owner": "explodinggradients",
+    "repo": "ragas",
+    "category": "Evaluation",
+    "tags": ["rag", "metrics", "quality"]
+  },
+  {
+    "owner": "UKPLab",
+    "repo": "sentence-transformers",
+    "category": "Embeddings",
+    "tags": ["embeddings", "retrieval", "semantic-search"]
+  },
+  {
+    "owner": "chroma-core",
+    "repo": "chroma",
+    "category": "Vector Databases",
+    "tags": ["vector-db", "embeddings", "rag"]
+  },
+  {
+    "owner": "qdrant",
+    "repo": "qdrant",
+    "category": "Vector Databases",
+    "tags": ["vector-db", "search", "production"]
+  },
+  {
+    "owner": "milvus-io",
+    "repo": "milvus",
+    "category": "Vector Databases",
+    "tags": ["vector-db", "scale", "retrieval"]
+  },
+  {
+    "owner": "lm-sys",
+    "repo": "FastChat",
+    "category": "Inference",
+    "tags": ["chat", "serving", "llm"]
+  },
+  {
+    "owner": "anthropics",
+    "repo": "anthropic-cookbook",
+    "category": "Foundation Models",
+    "tags": ["api", "examples", "agents"]
+  },
+  {
+    "owner": "Significant-Gravitas",
+    "repo": "AutoGPT",
+    "category": "Agents",
+    "tags": ["agents", "autonomy", "experiments"]
+  },
+  {
+    "owner": "assafelovic",
+    "repo": "gpt-researcher",
+    "category": "Agents",
+    "tags": ["research", "automation", "reports"]
+  },
+  {
+    "owner": "microsoft",
+    "repo": "markitdown",
+    "category": "Developer Tooling",
+    "tags": ["documents", "conversion", "pipelines"]
+  }
+]
