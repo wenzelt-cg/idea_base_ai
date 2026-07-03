@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Capgemini-inspired mark">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0093ff"/>
+      <stop offset="1" stop-color="#0064d8"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#f2f8ff"/>
+  <path d="M44 18c-6.8 0-13 3.1-16.8 8.5C24.9 29.6 24 33.2 24 36.8 24 44.1 29.9 50 37.2 50c5.7 0 10.8-3.7 12.6-9.1h-7.1c-1.2 1.8-3.1 2.9-5.5 2.9-3.8 0-6.8-3.1-6.8-7 0-4 3.1-7.1 6.8-7.1 2.4 0 4.4 1.2 5.6 3.1h7.1C48 24 43 18 44 18z" fill="url(#g)"/>
+</svg>

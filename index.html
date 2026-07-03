@@ -9,20 +9,49 @@
       content="A scrollable, searchable map of practical AI repositories for builders."
     />
     <meta name="theme-color" content="#102a43" />
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("atlas-theme");
+          var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          document.documentElement.dataset.theme = stored || (prefersDark ? "dark" : "light");
+        } catch (error) {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
     <meta property="og:title" content="AI Resource Atlas | GitHub Repositories" />
     <meta
       property="og:description"
       content="A scrollable, searchable map of practical AI repositories for builders."
     />
     <meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <a class="skip-link" href="#content">Skip to resource list</a>
     <div class="bg-layer" aria-hidden="true"></div>
 
-    <main id="content" class="app-shell" data-suggestion-email="SET_YOUR_EMAIL@example.com">
+    <main
+      id="content"
+      class="app-shell"
+      data-suggestion-email="tom.wenzel@capgemini.com"
+      data-suggestion-cc=""
+      data-suggestion-bcc=""
+      data-suggestion-subject-prefix="[AI-Resource-Atlas][Suggestion]"
+    >
       <section class="hero" aria-label="Overview">
+        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+          <svg class="theme-toggle__sun" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+          </svg>
+          <svg class="theme-toggle__moon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+          </svg>
+          <span class="theme-toggle__label">Dark</span>
+        </button>
         <h1>AI Resource Atlas</h1>
         <p>
           Your practical AI knowledge base: curated GitHub repositories, relevant papers, and compact use-case hints.
@@ -32,9 +61,17 @@
           <span id="repo-total">0 repositories</span>
           <span id="category-total">0 categories</span>
           <span id="paper-total">0 paper links</span>
-          <span>Updated from seed list</span>
-          <span>Source: curated manual list</span>
+          <span>Curated from a manual seed list</span>
         </div>
+      </section>
+
+      <section class="featured-carousel" aria-label="Daily featured repositories">
+        <div class="section-head featured-carousel__head">
+          <h2>Daily Featured Picks</h2>
+          <p id="featured-carousel-label">Loading daily featured selection...</p>
+        </div>
+
+        <div id="featured-track" class="featured-carousel__track" aria-live="polite"></div>
       </section>
 
       <section class="toolbar" aria-label="Search and filter repositories">
@@ -97,6 +134,9 @@
           <p>
             Share a useful AI repository, paper, or use case. The form opens your email app and pre-fills a suggestion
             email to the site owner.
+          </p>
+          <p>
+            <a id="direct-mailto-link" class="mailto-link" href="#">Direct mailto link</a>
           </p>
         </div>
 

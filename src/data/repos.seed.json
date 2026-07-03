@@ -209,6 +209,14 @@
     "useCase": "Improve AI coding throughput with a battle-tested configuration stack for Claude Code and related tools."
   },
   {
+    "owner": "safishamsi",
+    "repo": "graphify",
+    "category": "Developer Tooling",
+    "tags": ["claude-code", "codex", "knowledge-graph", "graphrag", "skills"],
+    "description": "AI coding assistant skill that builds a queryable knowledge graph across code, schemas, infrastructure, and docs.",
+    "useCase": "Index an application stack into a single knowledge graph so coding agents can reason across app code, database schema, and infrastructure together."
+  },
+  {
     "owner": "rtk-ai",
     "repo": "rtk",
     "category": "Developer Tooling",

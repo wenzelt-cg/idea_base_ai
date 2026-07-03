@@ -11,6 +11,8 @@ const elements = {
   paperTotal: document.getElementById("paper-total"),
   paperLibraryCount: document.getElementById("paper-library-count"),
   paperList: document.getElementById("paper-list"),
+  featuredTrack: document.getElementById("featured-track"),
+  featuredLabel: document.getElementById("featured-carousel-label"),
   repoList: document.getElementById("repo-list"),
   resultCount: document.getElementById("result-count"),
   emptyState: document.getElementById("empty-state"),
@@ -18,9 +20,47 @@ const elements = {
   categoryTotal: document.getElementById("category-total"),
   suggestionForm: document.getElementById("suggestion-form"),
   suggestionStatus: document.getElementById("suggestion-status"),
+  directMailtoLink: document.getElementById("direct-mailto-link"),
 };
 
 let repos = [];
+let featuredRepos = [];
+
+function initThemeToggle() {
+  const toggle = document.getElementById("theme-toggle");
+  const root = document.documentElement;
+
+  const apply = (theme) => {
+    root.dataset.theme = theme;
+
+    if (!toggle) {
+      return;
+    }
+
+    const isDark = theme === "dark";
+    toggle.setAttribute("aria-pressed", String(isDark));
+    toggle.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
+
+    const label = toggle.querySelector(".theme-toggle__label");
+    if (label) {
+      label.textContent = isDark ? "Light" : "Dark";
+    }
+  };
+
+  apply(root.dataset.theme === "dark" ? "dark" : "light");
+
+  toggle?.addEventListener("click", () => {
+    const next = root.dataset.theme === "dark" ? "light" : "dark";
+
+    try {
+      localStorage.setItem("atlas-theme", next);
+    } catch (error) {
+      /* storage may be unavailable; theme still applies for this session */
+    }
+
+    apply(next);
+  });
+}
 
 function escapeHtml(value) {
   return String(value)
@@ -58,7 +98,7 @@ function normalizeRepo(repo) {
   const fullName = `${repo.owner}/${repo.repo}`;
   const useCase = String(repo.useCase || "").trim();
   const rawDescription = String(repo.description || "").trim();
-  const category = String(repo.category || "Uncategorized").trim() || "Uncategorized";
+  const category = String(repo.category || "").trim() || "Uncategorized";
   const tags = (repo.tags || []).map((tag) => String(tag).toLowerCase().replace(/\s+/g, "-")).filter(Boolean);
   const tagPreview = tags.slice(0, 2).join(" and ") || "practical AI workflows";
   const generatedSummary = `A ${category} repository focused on ${tagPreview}.`;
@@ -239,6 +279,82 @@ function createRepoCard(repo) {
   return article;
 }
 
+function getDailySeed() {
+  const now = new Date();
+  return Math.floor(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()) / 86400000);
+}
+
+function createSeededRng(seed) {
+  let state = seed >>> 0;
+
+  return () => {
+    state = (state + 0x6d2b79f5) | 0;
+    let t = Math.imul(state ^ (state >>> 15), 1 | state);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function pickDailyFeatured(items, count) {
+  if (!items.length || count <= 0) {
+    return [];
+  }
+
+  const rng = createSeededRng(getDailySeed());
+  const shuffled = [...items];
+
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(rng() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  return shuffled.slice(0, Math.min(count, shuffled.length));
+}
+
+function renderFeaturedCarousel() {
+  if (!elements.featuredTrack || !elements.featuredLabel) {
+    return;
+  }
+
+  if (!featuredRepos.length) {
+    elements.featuredTrack.replaceChildren();
+    elements.featuredLabel.textContent = "No featured repositories available yet.";
+    return;
+  }
+
+  const visible = pickDailyFeatured(featuredRepos, 3);
+
+  const cards = visible.map((repo) => {
+    const card = document.createElement("article");
+    card.className = "featured-card";
+
+    const tags = repo.tags.slice(0, 3).map((tag) => `#${escapeHtml(tag)}`).join(" ");
+    const paperLine = repo.papers.length ? ` · ${repo.papers.length} paper link${repo.papers.length > 1 ? "s" : ""}` : "";
+
+    card.innerHTML = `
+      <a class="featured-card__title" href="${escapeHtml(repo.url)}" target="_blank" rel="noreferrer noopener">${escapeHtml(repo.fullName)}</a>
+      <p class="featured-card__summary">${escapeHtml(repo.description)}</p>
+      <p class="featured-card__meta">${escapeHtml(repo.category)}${paperLine}</p>
+      <p class="featured-card__tags">${tags || "#untagged"}</p>
+    `;
+
+    return card;
+  });
+
+  elements.featuredTrack.replaceChildren(...cards);
+  elements.featuredLabel.textContent = `Daily seed selection active · showing ${visible.length} of ${featuredRepos.length} featured entries.`;
+}
+
+function initFeaturedCarousel(allRepos) {
+  featuredRepos = allRepos.filter((repo) => repo.featured);
+
+  if (!featuredRepos.length) {
+    featuredRepos = [...allRepos];
+  }
+
+  renderFeaturedCarousel();
+}
+
 function renderRepos(filteredRepos) {
   if (!elements.repoList || !elements.resultCount || !elements.emptyState) {
     return;
@@ -307,33 +423,71 @@ function setSuggestionStatus(message, isError = false) {
   elements.suggestionStatus.classList.toggle("suggestion-status--error", isError);
 }
 
-function buildSuggestionMailtoUrl(formData) {
-  const target = String(elements.shell?.dataset.suggestionEmail || "").trim();
+function readSetting(key, fallback = "") {
+  return String(elements.shell?.dataset[key] || fallback).trim();
+}
 
-  if (!isValidEmail(target) || target === "SET_YOUR_EMAIL@example.com") {
+function buildSuggestionMailtoUrl(formData) {
+  const target = readSetting("suggestionEmail");
+  const cc = readSetting("suggestionCc");
+  const bcc = readSetting("suggestionBcc");
+  const prefix = readSetting("suggestionSubjectPrefix", "[AI-Resource-Atlas][Suggestion]");
+
+  if (!isValidEmail(target)) {
     return null;
   }
 
-  const type = String(formData.get("type") || "Other").trim();
-  const title = String(formData.get("title") || "Untitled suggestion").trim();
-  const link = String(formData.get("link") || "").trim();
-  const contact = String(formData.get("contact") || "").trim();
-  const notes = String(formData.get("notes") || "").trim();
+  const type = String(formData?.get("type") || "General").trim();
+  const title = String(formData?.get("title") || "New Resource Suggestion").trim();
+  const link = String(formData?.get("link") || "").trim();
+  const contact = String(formData?.get("contact") || "").trim();
+  const notes = String(formData?.get("notes") || "").trim();
+  const typeTag = type.toUpperCase().replace(/\s+/g, "-");
 
-  const subject = `[AI Atlas Suggestion] ${type}: ${title}`;
+  const subject = `${prefix}[${typeTag}] ${title}`;
   const bodyLines = [
     "New suggestion for AI Resource Atlas",
     "",
+    `Tags: #ai-resource-atlas #suggestion #${typeTag.toLowerCase()}`,
     `Type: ${type}`,
     `Title: ${title}`,
     `Link: ${link || "n/a"}`,
     `Contact: ${contact || "n/a"}`,
+    `Source URL: ${window.location.href}`,
     "",
     "Notes:",
     notes || "n/a",
   ];
 
-  return `mailto:${target}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
+  const params = new URLSearchParams();
+  params.set("subject", subject);
+  params.set("body", bodyLines.join("\n"));
+
+  if (cc) {
+    params.set("cc", cc);
+  }
+
+  if (bcc) {
+    params.set("bcc", bcc);
+  }
+
+  return `mailto:${target}?${params.toString()}`;
+}
+
+function initDirectMailtoLink() {
+  if (!elements.directMailtoLink) {
+    return;
+  }
+
+  const mailtoUrl = buildSuggestionMailtoUrl(null);
+
+  if (!mailtoUrl) {
+    elements.directMailtoLink.setAttribute("href", "#");
+    elements.directMailtoLink.setAttribute("aria-disabled", "true");
+    return;
+  }
+
+  elements.directMailtoLink.setAttribute("href", mailtoUrl);
 }
 
 function onSuggestionSubmit(event) {
@@ -371,6 +525,8 @@ function handleLoadError() {
 }
 
 async function init() {
+  initThemeToggle();
+
   if (!elements.form) {
     return;
   }
@@ -386,11 +542,13 @@ async function init() {
     repos = seedRepos.map((repo) => normalizeRepo(repo)).sort(sortRepos);
 
     updateHeaderStats();
+    initFeaturedCarousel(repos);
     populateOptions();
     renderRepos(repos);
 
     elements.form.addEventListener("input", runFilters);
     elements.form.addEventListener("change", runFilters);
+    initDirectMailtoLink();
 
     if (elements.suggestionForm) {
       elements.suggestionForm.addEventListener("submit", onSuggestionSubmit);
