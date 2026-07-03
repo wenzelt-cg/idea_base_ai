@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>AI Resource Atlas | GitHub Repositories</title>
+    <title>IIDA | Data Excellence AI Knowledge Base</title>
     <meta
       name="description"
-      content="A scrollable, searchable map of practical AI repositories for builders."
+      content="IIDA: a searchable AI knowledge base for practical repositories, papers, and data excellence use cases."
     />
     <meta name="theme-color" content="#102a43" />
     <script>
@@ -20,10 +20,10 @@
         }
       })();
     </script>
-    <meta property="og:title" content="AI Resource Atlas | GitHub Repositories" />
+    <meta property="og:title" content="IIDA | Data Excellence AI Knowledge Base" />
     <meta
       property="og:description"
-      content="A scrollable, searchable map of practical AI repositories for builders."
+      content="IIDA: a searchable AI knowledge base for practical repositories, papers, and data excellence use cases."
     />
     <meta property="og:type" content="website" />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
@@ -39,7 +39,7 @@
       data-suggestion-email="tom.wenzel@capgemini.com"
       data-suggestion-cc=""
       data-suggestion-bcc=""
-      data-suggestion-subject-prefix="[AI-Resource-Atlas][Suggestion]"
+      data-suggestion-subject-prefix="[IIDA][Suggestion]"
     >
       <section class="hero" aria-label="Overview">
         <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
@@ -52,9 +52,9 @@
           </svg>
           <span class="theme-toggle__label">Dark</span>
         </button>
-        <h1>AI Resource Atlas</h1>
+        <h1>IIDA</h1>
         <p>
-          Your practical AI knowledge base: curated GitHub repositories, relevant papers, and compact use-case hints.
+          Data Excellence AI Knowledge Base: curated GitHub repositories, relevant papers, and compact use-case hints.
           Every card links directly to source material for quick deep dives.
         </p>
         <div class="hero__meta" id="hero-meta">
@@ -132,53 +132,14 @@
         <div class="section-head">
           <h2>Suggest New Resources</h2>
           <p>
-            Share a useful AI repository, paper, or use case. The form opens your email app and pre-fills a suggestion
-            email to the site owner.
-          </p>
-          <p>
-            <a id="direct-mailto-link" class="mailto-link" href="#">Direct mailto link</a>
+            Share a useful AI repository, paper, or use case. One click opens your email app with a pre-filled suggestion draft.
           </p>
         </div>
 
-        <form id="suggestion-form" class="suggestion-grid">
-          <label class="suggestion-field" for="suggestion-type">
-            <span>Type</span>
-            <select id="suggestion-type" name="type" required>
-              <option value="GitHub Repo">GitHub Repo</option>
-              <option value="AI Paper">AI Paper</option>
-              <option value="Use Case">Use Case</option>
-              <option value="Other">Other</option>
-            </select>
-          </label>
-
-          <label class="suggestion-field" for="suggestion-title">
-            <span>Title</span>
-            <input id="suggestion-title" name="title" type="text" placeholder="Name of repo, paper, or use case" required />
-          </label>
-
-          <label class="suggestion-field" for="suggestion-link">
-            <span>Link</span>
-            <input id="suggestion-link" name="link" type="url" placeholder="https://..." />
-          </label>
-
-          <label class="suggestion-field" for="suggestion-contact">
-            <span>Your contact (optional)</span>
-            <input id="suggestion-contact" name="contact" type="email" placeholder="name@example.com" />
-          </label>
-
-          <label class="suggestion-field suggestion-field--full" for="suggestion-notes">
-            <span>Why is it useful?</span>
-            <textarea
-              id="suggestion-notes"
-              name="notes"
-              rows="4"
-              placeholder="Short context, quality signal, and practical value"
-            ></textarea>
-          </label>
-
-          <button type="submit" class="suggestion-submit">Send Suggestion via Email</button>
-          <p id="suggestion-status" class="suggestion-status" aria-live="polite"></p>
-        </form>
+        <div class="suggestion-cta">
+          <a id="direct-mailto-link" class="mailto-link mailto-link--cool" href="#">Send Suggestion by Email</a>
+          <p class="suggestion-cta__hint">Includes source URL and structured tags in the email body.</p>
+        </div>
       </section>
 
       <p class="footer-note">

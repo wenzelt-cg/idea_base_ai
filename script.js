@@ -18,8 +18,6 @@ const elements = {
   emptyState: document.getElementById("empty-state"),
   repoTotal: document.getElementById("repo-total"),
   categoryTotal: document.getElementById("category-total"),
-  suggestionForm: document.getElementById("suggestion-form"),
-  suggestionStatus: document.getElementById("suggestion-status"),
   directMailtoLink: document.getElementById("direct-mailto-link"),
 };
 
@@ -414,15 +412,6 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-function setSuggestionStatus(message, isError = false) {
-  if (!elements.suggestionStatus) {
-    return;
-  }
-
-  elements.suggestionStatus.textContent = message;
-  elements.suggestionStatus.classList.toggle("suggestion-status--error", isError);
-}
-
 function readSetting(key, fallback = "") {
   return String(elements.shell?.dataset[key] || fallback).trim();
 }
@@ -431,7 +420,7 @@ function buildSuggestionMailtoUrl(formData) {
   const target = readSetting("suggestionEmail");
   const cc = readSetting("suggestionCc");
   const bcc = readSetting("suggestionBcc");
-  const prefix = readSetting("suggestionSubjectPrefix", "[AI-Resource-Atlas][Suggestion]");
+  const prefix = readSetting("suggestionSubjectPrefix", "[IIDA][Suggestion]");
 
   if (!isValidEmail(target)) {
     return null;
@@ -446,9 +435,9 @@ function buildSuggestionMailtoUrl(formData) {
 
   const subject = `${prefix}[${typeTag}] ${title}`;
   const bodyLines = [
-    "New suggestion for AI Resource Atlas",
+    "New suggestion for IIDA: Data Excellence AI Knowledge Base",
     "",
-    `Tags: #ai-resource-atlas #suggestion #${typeTag.toLowerCase()}`,
+    `Tags: #iida #data-excellence #suggestion #${typeTag.toLowerCase()}`,
     `Type: ${type}`,
     `Title: ${title}`,
     `Link: ${link || "n/a"}`,
@@ -484,33 +473,11 @@ function initDirectMailtoLink() {
   if (!mailtoUrl) {
     elements.directMailtoLink.setAttribute("href", "#");
     elements.directMailtoLink.setAttribute("aria-disabled", "true");
+    elements.directMailtoLink.textContent = "Suggestion email is not configured";
     return;
   }
 
   elements.directMailtoLink.setAttribute("href", mailtoUrl);
-}
-
-function onSuggestionSubmit(event) {
-  event.preventDefault();
-
-  if (!(event.currentTarget instanceof HTMLFormElement)) {
-    return;
-  }
-
-  const formData = new FormData(event.currentTarget);
-  const mailtoUrl = buildSuggestionMailtoUrl(formData);
-
-  if (!mailtoUrl) {
-    setSuggestionStatus(
-      "Suggestion email is not configured yet. Set data-suggestion-email in index.html to your inbox address.",
-      true,
-    );
-    return;
-  }
-
-  window.location.href = mailtoUrl;
-  setSuggestionStatus("Your email app was opened with a pre-filled suggestion draft.");
-  event.currentTarget.reset();
 }
 
 function handleLoadError() {
@@ -549,10 +516,6 @@ async function init() {
     elements.form.addEventListener("input", runFilters);
     elements.form.addEventListener("change", runFilters);
     initDirectMailtoLink();
-
-    if (elements.suggestionForm) {
-      elements.suggestionForm.addEventListener("submit", onSuggestionSubmit);
-    }
   } catch (error) {
     console.error(error);
     handleLoadError();

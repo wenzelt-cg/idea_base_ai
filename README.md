@@ -1,6 +1,6 @@
-# AI Resource Atlas
+# IIDA: Data Excellence AI Knowledge Base
 
-A curated AI knowledge base with practical GitHub repositories, relevant paper links, and concise use-case hints.
+A curated AI knowledge base with practical GitHub repositories, relevant paper links, and concise data excellence use-case hints.
 
 ## Stack
 
@@ -27,7 +27,7 @@ No framework build step is required.
 3. Optional `papers` links from the seed are rendered on cards.
 4. Optional `useCase` summaries are rendered on cards.
 5. Search and filters run in the browser (including paper titles).
-6. Suggestion form creates a pre-filled email draft via `mailto:`.
+6. Suggestion CTA creates a pre-filled email draft via `mailto:`.
 
 ## Deployment
 
