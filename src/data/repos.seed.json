@@ -81,6 +81,17 @@
     "useCase": "Cut token spend during daily coding sessions while keeping existing AI-assisted terminal workflows."
   },
   {
+    "assetType": "GitHub Repo",
+    "owner": "teamchong",
+    "repo": "pxpipe",
+    "title": "pxpipe",
+    "url": "https://github.com/teamchong/pxpipe",
+    "category": "Inference",
+    "tags": ["iida", "data-excellence", "suggestion", "asset"],
+    "description": "Proxy that reduces LLM token costs by converting large text contexts into images for vision-capable models.",
+    "useCase": "Lower token spend on large code, log, and conversation inputs when using multimodal models, with a trade-off in exact-text reliability."
+  },
+  {
     "assetType": "Paper",
     "title": "Attention Is All You Need",
     "url": "https://arxiv.org/abs/1706.03762",
