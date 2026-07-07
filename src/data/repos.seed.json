@@ -45,6 +45,16 @@
   },
   {
     "assetType": "GitHub Repo",
+    "owner": "addyosmani",
+    "repo": "agent-skills",
+    "url": "https://github.com/addyosmani/agent-skills",
+    "category": "Developer Tooling",
+    "tags": ["agents", "skills", "prompts"],
+    "description": "Collection of reusable agent skills and guidance patterns for practical AI-assisted development workflows.",
+    "useCase": "Adopt prebuilt skill instructions to improve consistency and quality across coding-agent tasks."
+  },
+  {
+    "assetType": "GitHub Repo",
     "owner": "DietrichGebert",
     "repo": "ponytail",
     "category": "Developer Tooling",
@@ -164,5 +174,14 @@
     "description": "Turns heterogeneous project assets into a queryable knowledge graph for coding agents.",
     "useCase": "Help agents reason across code, docs, and infra context from one graph-backed index.",
     "featured": true
+  },
+  {
+    "assetType": "Skill",
+    "title": "WikiLLM Pattern (Andrej Karpathy)",
+    "url": "https://www.youtube.com/watch?v=EWvNQjAaOHw",
+    "category": "Prompt Engineering",
+    "tags": ["wikillm", "research", "structured-writing"],
+    "description": "A practical pattern for building wiki-style, citation-oriented notes with LLMs through iterative drafting and refinement.",
+    "useCase": "Create compact, source-aware explainers from scattered references when exploring a new technical topic."
   }
 ]
