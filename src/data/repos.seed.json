@@ -97,7 +97,7 @@
     "title": "pxpipe",
     "url": "https://github.com/teamchong/pxpipe",
     "category": "Inference",
-    "tags": ["iida", "data-excellence", "suggestion", "asset"],
+    "tags": ["iidap", "data-excellence", "suggestion", "asset"],
     "description": "Proxy that reduces LLM token costs by converting large text contexts into images for vision-capable models.",
     "useCase": "Lower token spend on large code, log, and conversation inputs when using multimodal models, with a trade-off in exact-text reliability."
   },
