@@ -1,4 +1,4 @@
-# IIDA: Data Excellence AI Knowledge Base
+# IIDAP: Data Excellence AI Knowledge Base
 
 A curated AI knowledge base where GitHub repos, papers, and skills are first-class assets.
 

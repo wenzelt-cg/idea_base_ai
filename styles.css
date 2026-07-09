@@ -385,15 +385,94 @@ body {
   font-size: 0.82rem;
 }
 
-.paper-library,
-.skill-library,
+/* ── Section panels: shared base ──────────────────────────────── */
+.library-panel,
+.resources-panel,
 .suggestion-panel {
   margin-top: 1rem;
+  border-radius: var(--radius-md);
+  padding: 1.1rem 1.25rem;
+  box-shadow: var(--shadow-soft);
+  border-left-width: 4px;
+  border-left-style: solid;
+}
+
+/* Papers panel — warm purple/lavender */
+.library-panel--papers {
+  background: linear-gradient(158deg, #fdf8ff 0%, #f3e8ff 100%);
+  border: 1px solid #d9b8f0;
+  border-left: 4px solid #8a44a8;
+}
+
+.library-panel--papers .section-head h2::before {
+  content: "";
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 3px;
+  background: #8a44a8;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  margin-bottom: 2px;
+}
+
+/* Skills panel — teal/mint */
+.library-panel--skills {
+  background: linear-gradient(158deg, #f2fbf8 0%, #dff5ee 100%);
+  border: 1px solid #9fd6c8;
+  border-left: 4px solid #0a9e7a;
+}
+
+.library-panel--skills .section-head h2::before {
+  content: "";
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 3px;
+  background: #0a9e7a;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  margin-bottom: 2px;
+}
+
+/* Resources panel — crisp blue */
+.resources-panel {
+  background: linear-gradient(158deg, #f8fbff 0%, #edf4ff 100%);
+  border: 1px solid var(--cg-line);
+  border-left: 4px solid #0070ad;
+}
+
+.resources-panel .section-head h2::before {
+  content: "";
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 3px;
+  background: #0070ad;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  margin-bottom: 2px;
+}
+
+.resources-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.8rem;
+}
+
+.resources-panel__head .results-line {
+  margin: 0;
+  font-size: 0.84rem;
+}
+
+/* Suggestion panel */
+.suggestion-panel {
   background: var(--cg-surface);
   border: 1px solid var(--cg-line);
-  border-radius: var(--radius-md);
-  padding: 1rem;
-  box-shadow: var(--shadow-soft);
+  border-left: 4px solid var(--cg-electric);
 }
 
 .paper-library__list {
@@ -409,10 +488,12 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.28rem;
-  border: 1px solid #d7e4f6;
+  border: 1px solid #d4b8e8;
+  border-left: 3px solid #8a44a8;
   border-radius: 12px;
   padding: 0.66rem 0.75rem;
-  background: linear-gradient(180deg, #ffffff, #f6faff);
+  background: linear-gradient(180deg, #ffffff, #faf4ff);
+  box-shadow: 0 2px 6px rgba(138, 68, 168, 0.07);
 }
 
 .paper-library__link {
@@ -451,10 +532,12 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.28rem;
-  border: 1px solid #d7e4f6;
+  border: 1px solid #9fd6c8;
+  border-left: 3px solid #0a9e7a;
   border-radius: 12px;
   padding: 0.66rem 0.75rem;
-  background: linear-gradient(180deg, #ffffff, #f6faff);
+  background: linear-gradient(180deg, #ffffff, #f0faf7);
+  box-shadow: 0 2px 6px rgba(10, 158, 122, 0.07);
 }
 
 .skill-library__summary {
@@ -508,7 +591,7 @@ body {
 }
 
 .results-line {
-  margin: 1rem 0 0.8rem;
+  margin: 0.6rem 0 0.4rem;
   color: var(--cg-muted);
   font-size: 0.95rem;
 }
@@ -526,10 +609,11 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.74rem;
-  background: linear-gradient(180deg, #ffffff, #f8fbff);
-  border: 1px solid #d1def2;
+  background: #ffffff;
+  border: 1px solid #b8cde6;
   border-radius: 16px;
   padding: 1rem;
+  box-shadow: 0 3px 10px rgba(17, 45, 101, 0.1), 0 1px 3px rgba(17, 45, 101, 0.07);
   transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
   animation: rise 420ms ease both;
 }
@@ -540,14 +624,22 @@ body {
   left: 0;
   top: 0;
   width: 100%;
-  height: 4px;
+  height: 5px;
   background: linear-gradient(90deg, #0070ad 0%, #1cb7ea 100%);
+}
+
+.repo-card[data-asset-type="Paper"]::before {
+  background: linear-gradient(90deg, #7b2d9a 0%, #b86ed6 100%);
+}
+
+.repo-card[data-asset-type="Skill"]::before {
+  background: linear-gradient(90deg, #0a9e7a 0%, #48d4b0 100%);
 }
 
 .repo-card:hover {
   transform: translateY(-4px);
-  border-color: #9ec0e9;
-  box-shadow: var(--shadow-soft);
+  border-color: #7fb0d8;
+  box-shadow: 0 12px 28px rgba(17, 45, 101, 0.16), 0 3px 8px rgba(17, 45, 101, 0.1);
 }
 
 .repo-card__head {
@@ -734,8 +826,8 @@ body {
   .hero,
   .toolbar,
   .featured-carousel,
-  .paper-library,
-  .skill-library,
+  .library-panel,
+  .resources-panel,
   .suggestion-panel,
   .repo-card {
     border-radius: 14px;
@@ -823,14 +915,36 @@ body {
   border-color: #2b3f63;
 }
 
+[data-theme="dark"] .library-panel--papers {
+  background: linear-gradient(158deg, #1e1228 0%, #180e22 100%);
+  border-color: #472a62;
+  border-left-color: #9b5abd;
+}
+
+[data-theme="dark"] .library-panel--skills {
+  background: linear-gradient(158deg, #0c1e1a 0%, #091a16 100%);
+  border-color: #1a4d3e;
+  border-left-color: #14c99a;
+}
+
+[data-theme="dark"] .resources-panel {
+  background: linear-gradient(158deg, #131f39 0%, #0e192f 100%);
+  border-color: #2b3f63;
+  border-left-color: #2b8ec6;
+}
+
 [data-theme="dark"] .paper-library__item {
-  background: linear-gradient(180deg, #16243f, #111d34);
-  border-color: #273c5e;
+  background: linear-gradient(180deg, #1e1530, #180e24);
+  border-color: #3d2260;
+  border-left-color: #9b5abd;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 [data-theme="dark"] .skill-library__item {
-  background: linear-gradient(180deg, #16243f, #111d34);
-  border-color: #273c5e;
+  background: linear-gradient(180deg, #0e1e1a, #091614);
+  border-color: #1a4d3e;
+  border-left-color: #14c99a;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 [data-theme="dark"] .paper-library__summary {
@@ -861,8 +975,9 @@ body {
 }
 
 [data-theme="dark"] .repo-card {
-  background: linear-gradient(180deg, #16243f, #111d34);
-  border-color: #273c5e;
+  background: #16243f;
+  border-color: #2a3f62;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.25);
 }
 
 [data-theme="dark"] .repo-card__description {

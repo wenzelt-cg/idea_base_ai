@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>IIDA | Data Excellence AI Knowledge Base</title>
+    <title>IIDAP | Data Excellence AI Knowledge Base</title>
     <meta
       name="description"
-      content="IIDA: a searchable AI knowledge base for skills, papers, and GitHub repos as first-class assets."
+      content="IIDAP: a searchable AI knowledge base for skills, papers, and GitHub repos as first-class assets."
     />
     <meta name="theme-color" content="#102a43" />
     <script>
@@ -20,10 +20,10 @@
         }
       })();
     </script>
-    <meta property="og:title" content="IIDA | Data Excellence AI Knowledge Base" />
+    <meta property="og:title" content="IIDAP | Data Excellence AI Knowledge Base" />
     <meta
       property="og:description"
-      content="IIDA: a searchable AI knowledge base for skills, papers, and GitHub repos as first-class assets."
+      content="IIDAP: a searchable AI knowledge base for skills, papers, and GitHub repos as first-class assets."
     />
     <meta property="og:type" content="website" />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
@@ -39,7 +39,7 @@
       data-suggestion-email="tom.wenzel@capgemini.com"
       data-suggestion-cc=""
       data-suggestion-bcc=""
-      data-suggestion-subject-prefix="[IIDA][Suggestion]"
+      data-suggestion-subject-prefix="[IIDAP][Suggestion]"
     >
       <section class="hero" aria-label="Overview">
         <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
@@ -52,7 +52,7 @@
           </svg>
           <span class="theme-toggle__label">Dark</span>
         </button>
-        <h1>IIDA</h1>
+        <h1>IIDAP</h1>
         <p>
           Data Excellence AI Knowledge Base: curated skills, papers, and GitHub repos as first-class assets.
           Every card links directly to source material for quick deep dives.
@@ -118,27 +118,30 @@
         </form>
       </section>
 
-      <section class="paper-library" aria-label="Paper library">
+      <section class="library-panel library-panel--papers" aria-label="Papers">
         <div class="section-head">
-          <h2>Paper Assets</h2>
-          <p id="paper-library-count">0 paper assets in the current view.</p>
+          <h2>Papers</h2>
+          <p id="paper-library-count">0 papers in the current view.</p>
         </div>
         <ul id="paper-list" class="paper-library__list"></ul>
       </section>
 
-      <section class="skill-library" aria-label="Skill library">
+      <section class="library-panel library-panel--skills" aria-label="Skills">
         <div class="section-head">
-          <h2>Skill Assets</h2>
-          <p id="skill-library-count">0 skill assets in the current view.</p>
+          <h2>Skills</h2>
+          <p id="skill-library-count">0 skills in the current view.</p>
         </div>
         <ul id="skill-list" class="skill-library__list"></ul>
       </section>
 
-      <p id="result-count" class="results-line">Loading assets...</p>
-
-      <section id="repo-list" class="repo-grid" aria-label="Asset list"></section>
-
-      <p id="empty-state" class="empty-state" hidden>No assets match your current filters.</p>
+      <section class="resources-panel" aria-label="Resources">
+        <div class="section-head resources-panel__head">
+          <h2>Resources</h2>
+          <p id="result-count" class="results-line">Loading resources...</p>
+        </div>
+        <div id="repo-list" class="repo-grid"></div>
+        <p id="empty-state" class="empty-state" hidden>No resources match your current filters.</p>
+      </section>
 
       <section class="suggestion-panel" aria-label="Suggest new resources">
         <div class="section-head">
@@ -155,7 +158,7 @@
       </section>
 
       <p class="footer-note">
-        Maintained from a curated asset seed list. Links open in a new tab.
+        IIDAP · Maintained from a curated asset seed list. Links open in a new tab.
       </p>
     </main>
 

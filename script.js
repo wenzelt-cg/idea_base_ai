@@ -260,7 +260,7 @@ function renderPaperLibrary(sourceAssets) {
 
   if (!paperAssets.length) {
     elements.paperList.replaceChildren();
-    elements.paperLibraryCount.textContent = "0 paper assets in the current view.";
+    elements.paperLibraryCount.textContent = "0 papers in the current view.";
     return;
   }
 
@@ -276,7 +276,7 @@ function renderPaperLibrary(sourceAssets) {
   });
 
   elements.paperList.replaceChildren(...paperItems);
-  elements.paperLibraryCount.textContent = `${paperAssets.length} paper assets in the current view.`;
+    elements.paperLibraryCount.textContent = `${paperAssets.length} paper${paperAssets.length !== 1 ? "s" : ""} in the current view.`;
 }
 
 function renderSkillLibrary(sourceAssets) {
@@ -288,7 +288,7 @@ function renderSkillLibrary(sourceAssets) {
 
   if (!skillAssets.length) {
     elements.skillList.replaceChildren();
-    elements.skillLibraryCount.textContent = "0 skill assets in the current view.";
+    elements.skillLibraryCount.textContent = "0 skills in the current view.";
     return;
   }
 
@@ -343,7 +343,7 @@ function renderSkillLibrary(sourceAssets) {
   });
 
   elements.skillList.replaceChildren(...skillItems);
-  elements.skillLibraryCount.textContent = `${skillAssets.length} skill assets in the current view.`;
+    elements.skillLibraryCount.textContent = `${skillAssets.length} skill${skillAssets.length !== 1 ? "s" : ""} in the current view.`;
 }
 
 function populateOptions() {
@@ -383,6 +383,7 @@ function createAssetCard(asset) {
   const article = document.createElement("article");
   article.className = "repo-card";
   article.dataset.assetId = asset.id;
+  article.dataset.assetType = asset.assetType;
 
   const tagsMarkup = asset.tags.length
     ? asset.tags.map((tag) => `<span class="repo-tag">#${escapeHtml(tag)}</span>`).join("")
@@ -506,11 +507,15 @@ function renderAssets(filteredAssets) {
     return;
   }
 
-  elements.repoList.replaceChildren(...filteredAssets.map((asset) => createAssetCard(asset)));
+  const resourceAssets = filteredAssets.filter(
+    (asset) => asset.assetType !== "Paper" && asset.assetType !== "Skill",
+  );
+
+  elements.repoList.replaceChildren(...resourceAssets.map((asset) => createAssetCard(asset)));
   renderPaperLibrary(filteredAssets);
   renderSkillLibrary(filteredAssets);
-  elements.resultCount.textContent = `Showing ${filteredAssets.length} assets.`;
-  elements.emptyState.hidden = filteredAssets.length > 0;
+  elements.resultCount.textContent = `Showing ${resourceAssets.length} resource${resourceAssets.length !== 1 ? "s" : ""}.`;
+  elements.emptyState.hidden = resourceAssets.length > 0;
 }
 
 function matchesQuery(asset, query) {
@@ -568,7 +573,7 @@ function buildSuggestionMailtoUrl() {
   const target = readSetting("suggestionEmail");
   const cc = readSetting("suggestionCc");
   const bcc = readSetting("suggestionBcc");
-  const prefix = readSetting("suggestionSubjectPrefix", "[IIDA][Suggestion]");
+  const prefix = readSetting("suggestionSubjectPrefix", "[IIDAP][Suggestion]");
 
   if (!isValidEmail(target)) {
     return null;
@@ -576,9 +581,9 @@ function buildSuggestionMailtoUrl() {
 
   const subject = `${prefix}[ASSET] New Asset Suggestion`;
   const bodyLines = [
-    "New suggestion for IIDA: Data Excellence AI Knowledge Base",
+    "New suggestion for IIDAP: Data Excellence AI Knowledge Base",
     "",
-    "Tags: #iida #data-excellence #suggestion #asset",
+    "Tags: #iidap #data-excellence #suggestion #asset",
     "Asset Type: Skill / Paper / GitHub Repo / Other",
     "Title: n/a",
     "Link: n/a",
