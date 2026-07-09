@@ -386,6 +386,7 @@ body {
 }
 
 .paper-library,
+.skill-library,
 .suggestion-panel {
   margin-top: 1rem;
   background: var(--cg-surface);
@@ -435,6 +436,75 @@ body {
 .paper-library__source {
   color: var(--cg-muted);
   font-size: 0.79rem;
+}
+
+.skill-library__list {
+  margin: 0.8rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.62rem;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+}
+
+.skill-library__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+  border: 1px solid #d7e4f6;
+  border-radius: 12px;
+  padding: 0.66rem 0.75rem;
+  background: linear-gradient(180deg, #ffffff, #f6faff);
+}
+
+.skill-library__summary {
+  margin: 0;
+  color: #2a426e;
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+
+.skill-library__actions {
+  margin-top: 0.2rem;
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.skill-library__download,
+.skill-library__open,
+.repo-card__download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.26rem 0.62rem;
+  font-size: 0.78rem;
+  text-decoration: none;
+  border: 1px solid #8ec4e8;
+  color: #0c5884;
+  background: #e9f6ff;
+  font-weight: 600;
+}
+
+.skill-library__open {
+  border-color: #c4d8ee;
+  color: #36557d;
+  background: #f3f8ff;
+}
+
+.skill-library__download:hover,
+.skill-library__open:hover,
+.repo-card__download:hover {
+  color: #ffffff;
+  background: #0d79b4;
+  border-color: #0d79b4;
+}
+
+.repo-card__actions {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
 }
 
 .results-line {
@@ -665,6 +735,7 @@ body {
   .toolbar,
   .featured-carousel,
   .paper-library,
+  .skill-library,
   .suggestion-panel,
   .repo-card {
     border-radius: 14px;
@@ -683,7 +754,8 @@ body {
   }
 
   .repo-grid,
-  .paper-library__list {
+  .paper-library__list,
+  .skill-library__list {
     grid-template-columns: 1fr;
     gap: 0.75rem;
   }
@@ -756,8 +828,32 @@ body {
   border-color: #273c5e;
 }
 
+[data-theme="dark"] .skill-library__item {
+  background: linear-gradient(180deg, #16243f, #111d34);
+  border-color: #273c5e;
+}
+
 [data-theme="dark"] .paper-library__summary {
   color: #b9c8e6;
+}
+
+[data-theme="dark"] .skill-library__summary {
+  color: #b9c8e6;
+}
+
+[data-theme="dark"] .skill-library__download,
+[data-theme="dark"] .skill-library__open,
+[data-theme="dark"] .repo-card__download {
+  background: #14263c;
+  border-color: #2f4f6e;
+  color: #d6e4f6;
+}
+
+[data-theme="dark"] .skill-library__download:hover,
+[data-theme="dark"] .skill-library__open:hover,
+[data-theme="dark"] .repo-card__download:hover {
+  background: #1a3450;
+  border-color: #3f7fa8;
 }
 
 [data-theme="dark"] .mailto-link {

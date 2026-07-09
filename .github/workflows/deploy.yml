@@ -27,12 +27,13 @@ jobs:
 
       - name: Package static files
         run: |
-          mkdir -p site/src/data
+          mkdir -p site/src/data site/src/skills
           cp index.html site/index.html
           cp styles.css site/styles.css
           cp script.js site/script.js
           if [ -f favicon.svg ]; then cp favicon.svg site/favicon.svg; fi
           cp src/data/repos.seed.json site/src/data/repos.seed.json
+          if [ -d src/skills ]; then cp -R src/skills/. site/src/skills/; fi
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5

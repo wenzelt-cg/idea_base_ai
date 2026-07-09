@@ -9,8 +9,11 @@ const elements = {
   tag: document.getElementById("tag-select"),
   featured: document.getElementById("featured-only"),
   paperTotal: document.getElementById("paper-total"),
+  skillTotal: document.getElementById("skill-total"),
   paperLibraryCount: document.getElementById("paper-library-count"),
   paperList: document.getElementById("paper-list"),
+  skillLibraryCount: document.getElementById("skill-library-count"),
+  skillList: document.getElementById("skill-list"),
   featuredTrack: document.getElementById("featured-track"),
   featuredLabel: document.getElementById("featured-carousel-label"),
   repoList: document.getElementById("repo-list"),
@@ -123,12 +126,34 @@ function buildAssetUrl(raw) {
   return "#";
 }
 
+function isLikelyLocalPath(url) {
+  return /^(\.?\/|\/)(?!\/)/.test(url);
+}
+
+function buildDownloadFileName(rawName, fallbackTitle) {
+  const explicitName = String(rawName || "").trim();
+  if (explicitName) {
+    return explicitName;
+  }
+
+  const normalized = String(fallbackTitle || "skill")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "") || "skill";
+
+  return `${normalized}.skill`;
+}
+
 function buildSourceLabel(assetType, raw, url) {
   const owner = String(raw.owner || "").trim();
   const repo = String(raw.repo || "").trim();
 
   if (assetType === "GitHub Repo" && owner && repo) {
     return `${owner}/${repo}`;
+  }
+
+  if (isLikelyLocalPath(url)) {
+    return "local";
   }
 
   try {
@@ -150,11 +175,15 @@ function normalizeAsset(raw) {
   const useCase = String(raw.useCase || "").trim();
   const rawDescription = String(raw.description || "").trim();
   const rawSummary = String(raw.summary || "").trim();
+  const rawDownloadUrl = String(raw.downloadUrl || "").trim();
   const tags = (raw.tags || []).map((tag) => String(tag).toLowerCase().replace(/\s+/g, "-")).filter(Boolean);
   const tagPreview = tags.slice(0, 2).join(" and ") || "practical workflows";
   const generatedSummary = `${assetType} asset for ${tagPreview}.`;
   const description = rawDescription || useCase || generatedSummary;
   const summary = rawSummary || rawDescription || useCase || generatedSummary;
+  const inferredDownloadUrl = assetType === "Skill" && /\.skill(?:\?|#|$)/i.test(url) ? url : "";
+  const downloadUrl = rawDownloadUrl || inferredDownloadUrl;
+  const downloadFileName = downloadUrl ? buildDownloadFileName(raw.downloadFileName, title) : "";
   const source = buildSourceLabel(assetType, raw, url);
   const id = `${assetType}:${title}:${url}`.toLowerCase().replace(/\s+/g, "-");
 
@@ -168,6 +197,8 @@ function normalizeAsset(raw) {
     description,
     summary,
     useCase,
+    downloadUrl,
+    downloadFileName,
     featured: Boolean(raw.featured),
     source,
   };
@@ -189,6 +220,7 @@ function sortAssets(a, b) {
 function updateHeaderStats() {
   const categories = new Set(assets.map((asset) => asset.category));
   const paperCount = assets.filter((asset) => asset.assetType === "Paper").length;
+  const skillCount = assets.filter((asset) => asset.assetType === "Skill").length;
 
   if (elements.repoTotal) {
     elements.repoTotal.textContent = `${assets.length} assets`;
@@ -201,11 +233,21 @@ function updateHeaderStats() {
   if (elements.paperTotal) {
     elements.paperTotal.textContent = `${paperCount} paper assets`;
   }
+
+  if (elements.skillTotal) {
+    elements.skillTotal.textContent = `${skillCount} skill assets`;
+  }
 }
 
 function collectPaperAssets(sourceAssets) {
   return sourceAssets
     .filter((asset) => asset.assetType === "Paper")
+    .sort((a, b) => a.title.localeCompare(b.title));
+}
+
+function collectSkillAssets(sourceAssets) {
+  return sourceAssets
+    .filter((asset) => asset.assetType === "Skill")
     .sort((a, b) => a.title.localeCompare(b.title));
 }
 
@@ -235,6 +277,73 @@ function renderPaperLibrary(sourceAssets) {
 
   elements.paperList.replaceChildren(...paperItems);
   elements.paperLibraryCount.textContent = `${paperAssets.length} paper assets in the current view.`;
+}
+
+function renderSkillLibrary(sourceAssets) {
+  if (!elements.skillList || !elements.skillLibraryCount) {
+    return;
+  }
+
+  const skillAssets = collectSkillAssets(sourceAssets);
+
+  if (!skillAssets.length) {
+    elements.skillList.replaceChildren();
+    elements.skillLibraryCount.textContent = "0 skill assets in the current view.";
+    return;
+  }
+
+  const skillItems = skillAssets.map((skill) => {
+    const item = document.createElement("li");
+    item.className = "skill-library__item";
+
+    const title = document.createElement("a");
+    title.className = "paper-library__link";
+    title.href = skill.url;
+    title.target = "_blank";
+    title.rel = "noreferrer noopener";
+    title.textContent = skill.title;
+
+    const summary = document.createElement("p");
+    summary.className = "skill-library__summary";
+    summary.textContent = skill.summary;
+
+    const meta = document.createElement("span");
+    meta.className = "paper-library__source";
+    meta.textContent = `${skill.category} · ${skill.source}`;
+
+    const actions = document.createElement("div");
+    actions.className = "skill-library__actions";
+
+    if (skill.downloadUrl) {
+      const download = document.createElement("a");
+      download.className = "skill-library__download";
+      download.href = skill.downloadUrl;
+      download.setAttribute("download", skill.downloadFileName);
+      download.textContent = "Download for Claude";
+      actions.append(download);
+    }
+
+    if (skill.url !== "#" && skill.url !== skill.downloadUrl) {
+      const open = document.createElement("a");
+      open.className = "skill-library__open";
+      open.href = skill.url;
+      open.target = "_blank";
+      open.rel = "noreferrer noopener";
+      open.textContent = "Open source";
+      actions.append(open);
+    }
+
+    item.append(title, summary, meta);
+
+    if (actions.childElementCount > 0) {
+      item.append(actions);
+    }
+
+    return item;
+  });
+
+  elements.skillList.replaceChildren(...skillItems);
+  elements.skillLibraryCount.textContent = `${skillAssets.length} skill assets in the current view.`;
 }
 
 function populateOptions() {
@@ -283,6 +392,14 @@ function createAssetCard(asset) {
     ? `<p class="repo-use-case"><strong>Use case:</strong> ${escapeHtml(asset.useCase)}</p>`
     : "";
 
+  const skillDownloadMarkup = asset.assetType === "Skill" && asset.downloadUrl
+    ? `
+      <div class="repo-card__actions">
+        <a class="repo-card__download" href="${escapeHtml(asset.downloadUrl)}" download="${escapeHtml(asset.downloadFileName)}">Download for Claude</a>
+      </div>
+    `
+    : "";
+
   article.innerHTML = `
     <header class="repo-card__head">
       <a class="repo-card__title" href="${escapeHtml(asset.url)}" target="_blank" rel="noreferrer noopener">${escapeHtml(asset.title)}</a>
@@ -302,6 +419,8 @@ function createAssetCard(asset) {
     <div class="repo-card__tags" aria-label="Tags">
       ${tagsMarkup}
     </div>
+
+    ${skillDownloadMarkup}
   `;
 
   return article;
@@ -389,6 +508,7 @@ function renderAssets(filteredAssets) {
 
   elements.repoList.replaceChildren(...filteredAssets.map((asset) => createAssetCard(asset)));
   renderPaperLibrary(filteredAssets);
+  renderSkillLibrary(filteredAssets);
   elements.resultCount.textContent = `Showing ${filteredAssets.length} assets.`;
   elements.emptyState.hidden = filteredAssets.length > 0;
 }

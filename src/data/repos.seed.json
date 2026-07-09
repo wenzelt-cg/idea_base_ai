@@ -177,6 +177,17 @@
   },
   {
     "assetType": "Skill",
+    "title": "Jira Validator Skill Bundle",
+    "url": "./src/skills/jira-validator.skill",
+    "downloadUrl": "./src/skills/jira-validator.skill",
+    "category": "Developer Tooling",
+    "tags": ["claude", "skill", "jira", "validation"],
+    "description": "Local skill bundle for validating Jira fields, transitions, and project-specific issue hygiene patterns.",
+    "useCase": "Download and import into Claude to enforce Jira ticket quality checks in agent-driven workflows.",
+    "featured": true
+  },
+  {
+    "assetType": "Skill",
     "title": "WikiLLM Pattern (Andrej Karpathy)",
     "url": "https://www.youtube.com/watch?v=EWvNQjAaOHw",
     "category": "Prompt Engineering",

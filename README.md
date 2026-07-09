@@ -6,6 +6,7 @@ A curated AI knowledge base where GitHub repos, papers, and skills are first-cla
 
 - Plain HTML + CSS + Vanilla JavaScript
 - Static JSON seed data from `src/data/repos.seed.json`
+- Optional local Claude skill bundles in `src/skills/`
 
 ## Local Development
 
@@ -25,9 +26,10 @@ No framework build step is required.
 1. Curated input list lives in `src/data/repos.seed.json`.
 2. `script.js` loads the seed list in the browser and renders asset cards.
 3. Each entry is typed as `GitHub Repo`, `Paper`, or `Skill` using `assetType`.
-4. Search and filters run in the browser across asset type, category, tags, and text.
-5. A dedicated paper section is rendered from paper assets.
-6. Suggestion CTA creates a pre-filled email draft via `mailto:`.
+4. Skill entries can include `downloadUrl` (usually a local `.skill` file under `src/skills/`) for direct Claude downloads.
+5. Search and filters run in the browser across asset type, category, tags, and text.
+6. Dedicated paper and skill sections are rendered from paper and skill assets.
+7. Suggestion CTA creates a pre-filled email draft via `mailto:`.
 
 ## Deployment
 
@@ -40,7 +42,8 @@ Expected Pages URL:
 ## Updating Resources
 
 1. Add or edit assets in `src/data/repos.seed.json`.
-2. Commit changes and push to `main`.
+2. For downloadable skills, add the skill bundle file to `src/skills/` and reference it with `downloadUrl`.
+3. Commit changes and push to `main`.
 
 ### Asset Entry Example
 
@@ -62,6 +65,20 @@ Use one entry per asset:
 
 ```json
 "useCase": "Create question-answering assistants over internal knowledge bases."
+```
+
+### Downloadable Skill Example
+
+```json
+{
+   "assetType": "Skill",
+   "title": "Jira Validator Skill Bundle",
+   "url": "./src/skills/jira-validator.skill",
+   "downloadUrl": "./src/skills/jira-validator.skill",
+   "category": "Developer Tooling",
+   "tags": ["claude", "skill", "jira", "validation"],
+   "description": "Local skill bundle for validating Jira fields and workflows."
+}
 ```
 
 ## Suggestion Email Setup
